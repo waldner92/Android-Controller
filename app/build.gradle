@@ -10,19 +10,19 @@ android {
         applicationId "com.android.metg2.androidcontroller"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode versionMajor*1000+versionMinor*100+versionPatch
+        versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             versionNameSuffix ".debug"
-            resValue "string","app_version","${defaultConfig.versionName}${defaultConfig.versionNameSuffix}"
+            resValue "string", "app_version", "${defaultConfig.versionName}${defaultConfig.versionNameSuffix}"
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string","app_version","${defaultConfig.versionName}"
+            resValue "string", "app_version", "${defaultConfig.versionName}"
         }
     }
 }
