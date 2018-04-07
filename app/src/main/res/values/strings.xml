@@ -7,5 +7,8 @@
     <string name="menu_option_3">Accelerometer Challenge</string>
     <string name="menu_option_4">View Logs</string>
 
+    <!-- Logs -->
+    <string name="logs_header">List of Logs:</string>
+
 
 </resources>

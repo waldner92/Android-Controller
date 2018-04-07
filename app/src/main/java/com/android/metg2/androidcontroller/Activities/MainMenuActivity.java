@@ -47,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, RemoteControlActivity.class);
 
                 startActivity(intent);
+                //finish();
             }
         });
 
@@ -58,6 +59,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, MazeActivity.class);
 
                 startActivity(intent);
+                //finish();
             }
         });
 
@@ -69,6 +71,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, AccelerometerActivity.class);
 
                 startActivity(intent);
+                //finish();
             }
         });
 
@@ -80,6 +83,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, LogsActivity.class);
 
                 startActivity(intent);
+                //finish();
             }
         });
     }

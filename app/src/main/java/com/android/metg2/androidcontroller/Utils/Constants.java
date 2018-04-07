@@ -11,4 +11,10 @@ public class Constants {
      * Duration of the Splash screen in milliseconds.
      */
     public final static int SPLASH_SCREEN_DELAY = 2300;
+
+
+    /**
+     * Duration of the Splash screen in milliseconds.
+     */
+    public final static String LOGS_HEADER = "List of Logs:";
 }

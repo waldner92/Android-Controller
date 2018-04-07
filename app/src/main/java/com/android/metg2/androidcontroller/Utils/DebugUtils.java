@@ -18,8 +18,8 @@ public class DebugUtils {
      * This method prints the message only if the app is build as debug (not release) and the private
      * flag is activated
      *
-     * @param TAG : the TAG of the log
-     * @param message : the message to be printed
+     * @param TAG The TAG of the log
+     * @param message The message to be printed
      */
     public static void debug(String TAG, String message){
 
