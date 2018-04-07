@@ -1,10 +1,13 @@
-package com.android.metg2.androidcontroller;
+package com.android.metg2.androidcontroller.Activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
+
+import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.Utils.Constants;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,11 +19,6 @@ import java.util.TimerTask;
  * @version 1.0
  */
 public class SplashActivity extends AppCompatActivity {
-
-    /**
-     * Duration of the Splash screen in milliseconds.
-     */
-    private final int SPLASH_SCREEN_DELAY = 2300;
 
     /**
      * OnCreate Method from Activity.
@@ -53,6 +51,6 @@ public class SplashActivity extends AppCompatActivity {
 
         //Create a new timer, assign it to the Timer Task and set the delay
         Timer timer = new Timer();
-        timer.schedule(timerTask, SPLASH_SCREEN_DELAY);
+        timer.schedule(timerTask, Constants.SPLASH_SCREEN_DELAY);
     }
 }

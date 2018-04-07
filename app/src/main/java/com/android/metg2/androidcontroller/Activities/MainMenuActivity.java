@@ -1,4 +1,4 @@
-package com.android.metg2.androidcontroller;
+package com.android.metg2.androidcontroller.Activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.android.metg2.androidcontroller.R;
 
 /**
  * Main Menu Activity. It is the menu that shows the four available options to do next.

@@ -1,7 +1,9 @@
-package com.android.metg2.androidcontroller;
+package com.android.metg2.androidcontroller.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.android.metg2.androidcontroller.R;
 
 public class LogsActivity extends AppCompatActivity {
 
