@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AndroidController</string>
+
+    <!-- Menu -->
+    <string name="menu_option_1">Remote Control</string>
+    <string name="menu_option_2">Maze Challenge</string>
+    <string name="menu_option_3">Accelerometer Challenge</string>
+    <string name="menu_option_4">View Logs</string>
+
+
 </resources>
