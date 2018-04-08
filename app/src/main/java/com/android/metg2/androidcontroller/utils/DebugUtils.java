@@ -1,4 +1,4 @@
-package com.android.metg2.androidcontroller.Utils;
+package com.android.metg2.androidcontroller.utils;
 
 import android.util.Log;
 

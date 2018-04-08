@@ -1,4 +1,4 @@
-package com.android.metg2.androidcontroller.Activities;
+package com.android.metg2.androidcontroller.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 
 import com.android.metg2.androidcontroller.R;
-import com.android.metg2.androidcontroller.Utils.Constants;
+import com.android.metg2.androidcontroller.utils.Constants;
 
 import java.util.Timer;
 import java.util.TimerTask;
