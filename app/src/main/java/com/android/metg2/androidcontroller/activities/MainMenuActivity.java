@@ -1,4 +1,4 @@
-package com.android.metg2.androidcontroller.Activities;
+package com.android.metg2.androidcontroller.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

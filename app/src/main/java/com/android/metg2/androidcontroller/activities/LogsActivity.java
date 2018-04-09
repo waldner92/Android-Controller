@@ -1,6 +1,8 @@
-package com.android.metg2.androidcontroller.Activities;
+package com.android.metg2.androidcontroller.activities;
 
-import android.content.Intent;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +11,8 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.android.metg2.androidcontroller.R;
-import com.android.metg2.androidcontroller.Utils.Constants;
+import com.android.metg2.androidcontroller.utils.Constants;
+import com.android.metg2.androidcontroller.viewmodels.LogsViewModel;
 
 /**
  * This Activity shows all generated logs form the communication with the Arduino robot
@@ -19,9 +22,11 @@ import com.android.metg2.androidcontroller.Utils.Constants;
  */
 public class LogsActivity extends AppCompatActivity {
 
-    //private static final long timeBetweenFrames = 500;
     private static String entireMessage = "";
     private static TextView textView;
+
+    private LogsViewModel viewModel;
+    private Observer<String> logsObserver;
 
     /**
      * OnCreate Method from Activity.
@@ -37,12 +42,25 @@ public class LogsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logs);
         ActionBar actBar = getSupportActionBar();
         actBar.setHomeButtonEnabled(true);
+
+        initViewModel();
+
         textView = findViewById(R.id.logs);
-        textView.setText(Constants.LOGS_HEADER);
+        //textView.setText(Constants.LOGS_HEADER);
+
+        viewModel.showLogs(this).observe(this, logsObserver);
+
         /*CommunicationService.timeBetweenFrames = timeBetweenFrames;
         if (!CommunicationService.isServiceRunning) {
             startService(new Intent(this, CommunicationService.class));
         }*/
+    }
+
+    @Override
+    public void onStop(){
+
+        super.onStop();
+
     }
 
     /**
@@ -70,14 +88,24 @@ public class LogsActivity extends AppCompatActivity {
             textView.append(entireMessage);
     }
 
+    private void initViewModel(){
+        viewModel = ViewModelProviders.of(this).get(LogsViewModel.class);
+
+        logsObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String entireMessage) {
+                showLogs(entireMessage);
+            }
+        };
+    }
+
     /**
      * Method for adding a new row to the log register.
-     * @param message String
+     * @param message The log string
      */
-    public static void addLogRow(String message) {
-        entireMessage += message;
-        if (textView != null)
-            textView.append("\n" + message);
+    public static void showLogs(String message) {
+
+        textView.setText(message);
     }
 }
 

@@ -1,15 +1,15 @@
-package com.android.metg2.androidcontroller.Activities;
+package com.android.metg2.androidcontroller.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.android.metg2.androidcontroller.R;
 
-public class MazeActivity extends AppCompatActivity {
+public class RemoteControlActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maze);
+        setContentView(R.layout.activity_remote_control);
     }
 }
