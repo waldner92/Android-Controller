@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.android.metg2.androidcontroller.Activities.RemoteControlActivity">
+    tools:context="com.android.metg2.androidcontroller.activities.RemoteControlActivity">
 
     <TableRow
         android:id="@+id/row1"
