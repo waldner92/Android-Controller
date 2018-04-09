@@ -50,10 +50,12 @@
 
         <Button
             android:id="@+id/AutMan_button"
-            android:text="@string/AUTOMAN"/>
+            android:text="@string/AUTOMAN"
+            android:background="@drawable/button_style"/>
         <Button
             android:id="@+id/Lights_button"
-            android:text="@string/Lights"/>
+            android:text="@string/Lights"
+            android:background="@drawable/button_style"/>
         <TextView
             android:id="@+id/Lights_status"
             android:text="@string/OFF"/>
@@ -77,11 +79,13 @@
             android:id="@+id/gear_up_button"
             android:text="GEAR UP"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_style"
             />
         <Button
             android:id="@+id/gear_down_button"
             android:text="GEAR DOWN"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_style"
 
             />
         <TextView
@@ -99,6 +103,7 @@
         <Button
             android:id="@+id/Accelerometer_button"
             android:text="GAS"
+            android:background="@drawable/button_style"
 
 
             />
@@ -112,7 +117,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@drawable/button_style"
         android:text="Back to Menu"
         android:id="@+id/Menu"/>
 

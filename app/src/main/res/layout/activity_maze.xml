@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context="com.android.metg2.androidcontroller.activities.MazeActivity">
-
-
-
-
  <android.support.v7.widget.LinearLayoutCompat
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
@@ -51,7 +47,8 @@
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:text="Play Solution"
-     android:layout_marginTop="40dp"/>
+     android:layout_marginTop="40dp"
+     android:background="@drawable/button_style"/>
 </android.support.v7.widget.LinearLayoutCompat>
 
  <android.support.v7.widget.LinearLayoutCompat
@@ -64,6 +61,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Back to Menu"
+      android:background="@drawable/button_style"
 
       />
  </android.support.v7.widget.LinearLayoutCompat>
