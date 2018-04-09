@@ -9,6 +9,13 @@
 
     <!-- Logs -->
     <string name="logs_header">List of Logs:</string>
+    <string name="grados">10/u2103 C</string>
+    <string name="OFF">OFF</string>
+
+    <string name="Lights">LIGHTS</string>
+
+
+    <string name="AUTOMAN">AUTO/MAN</string>
 
 
 </resources>

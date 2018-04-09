@@ -1,19 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context="com.android.metg2.androidcontroller.Activities.RemoteControlActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <TableRow
+        android:id="@+id/row1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dip"
+                >
+            <view
+            android:id="@+id/bumper_left"
+            android:layout_height="40dp"
+            android:layout_width="20dp"
+            android:layout_margin="10dp"
+
+                        />
+
+        <view
+            android:id="@+id/ultrasound"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+
+            />
+
+        <view
+            android:id="@+id/bumper_right"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+
+            />
+
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/row2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="10dip"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/AutMan_button"
+            android:text="@string/AUTOMAN"/>
+        <Button
+            android:id="@+id/Lights_button"
+            android:text="@string/Lights"/>
+        <TextView
+            android:id="@+id/Lights_status"
+            android:text="@string/OFF"/>
+
+        <TextView
+            android:id="@+id/Temperature"
+            android:text="10ºC" />
+
+
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/row3"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="10dip"
+        android:gravity="center_horizontal"
+        >
+
+        <Button
+            android:id="@+id/gear_up_button"
+            android:text="GEAR UP"
+            android:layout_gravity="center_horizontal"
+            />
+        <Button
+            android:id="@+id/gear_down_button"
+            android:text="GEAR DOWN"
+            android:layout_gravity="center_horizontal"
+
+            />
+        <TextView
+            android:id="@+id/speedometer"
+            android:text="Speed: "/>
+    </TableRow>
+    <TableRow
+        android:id="@+id/row4"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="10dip"
+        android:gravity="center_horizontal"
+        >
+
+        <Button
+            android:id="@+id/Accelerometer_button"
+            android:text="GAS"
+
+
+            />
+
+
+    </TableRow>
+<TableRow
+    android:id="@+id/row5"
+
+    >
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remote Control Activity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        android:text="Back to Menu"
+        android:id="@+id/Menu"/>
+
+</TableRow>
+
+
+
+
+</TableLayout>
+
+
+
+
+
+
+
