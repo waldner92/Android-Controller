@@ -2,10 +2,12 @@ package com.android.metg2.androidcontroller.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DebugUtils;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
@@ -37,9 +39,15 @@ public class LogsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "requestWindowFeature(Window.FEATURE_ACTION_BAR);");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);");
+
 
         super.onCreate(savedInstanceState);
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "super.onCreate(savedInstanceState);");
         setContentView(R.layout.activity_logs);
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "setContentView(R.layout.activity_logs);");
         ActionBar actBar = getSupportActionBar();
         actBar.setHomeButtonEnabled(true);
 

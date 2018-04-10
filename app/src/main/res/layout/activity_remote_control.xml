@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,34 +12,31 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="10dip"
-                >
-            <view
+        android:padding="10dip">
+
+        <View
             android:id="@+id/bumper_left"
             android:layout_height="40dp"
             android:layout_width="20dp"
             android:layout_margin="10dp"
+            android:background="@drawable/rect"/>
 
-                        />
-
-        <view
+        <View
             android:id="@+id/ultrasound"
             android:layout_width="20dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
+            android:background="@drawable/rect"/>
 
-            />
-
-        <view
+        <View
             android:id="@+id/bumper_right"
-            android:layout_width="90dp"
+            android:layout_width="20dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
-
-            />
-
+            android:background="@drawable/rect"/>
 
     </TableRow>
+
     <TableRow
         android:id="@+id/row2"
         android:layout_height="wrap_content"
@@ -48,89 +44,99 @@
         android:padding="10dip"
         android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/AutMan_button"
-            android:text="@string/AUTOMAN"
-            android:background="@drawable/button_style"/>
-        <Button
-            android:id="@+id/Lights_button"
-            android:text="@string/Lights"
-            android:background="@drawable/button_style"/>
         <TextView
-            android:id="@+id/Lights_status"
-            android:text="@string/OFF"/>
-
-        <TextView
-            android:id="@+id/Temperature"
+            android:id="@+id/temperature"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="10ºC" />
 
-
+        <Button
+            android:id="@+id/autMan_button"
+            android:text="@string/auto_man"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button_style"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/lights_button"
+            android:text="@string/lights"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button_style"/>
+        <TextView
+            android:id="@+id/lights_status"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/off"/>
 
     </TableRow>
+
     <TableRow
         android:id="@+id/row3"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="10dip"
-        android:gravity="center_horizontal"
-        >
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/gears"
+            android:text="@string/gears"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <Button
             android:id="@+id/gear_up_button"
-            android:text="GEAR UP"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button_style"
-            />
+            android:text="@string/gear_up"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button_style"/>
+
         <Button
             android:id="@+id/gear_down_button"
-            android:text="GEAR DOWN"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button_style"
+            android:text="@string/gear_down"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button_style"/>
 
-            />
         <TextView
-            android:id="@+id/speedometer"
-            android:text="Speed: "/>
+            android:id="@+id/speed"
+            android:text="@string/speed"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
     </TableRow>
+
     <TableRow
         android:id="@+id/row4"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="10dip"
-        android:gravity="center_horizontal"
-        >
+        android:gravity="center_horizontal" >
 
         <Button
-            android:id="@+id/Accelerometer_button"
-            android:text="GAS"
-            android:background="@drawable/button_style"
-
-
-            />
-
-
+            android:id="@+id/accelerometer_button"
+            android:layout_width="wrap_content"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:text="@string/go"
+            android:background="@drawable/button_style"/>
     </TableRow>
-<TableRow
-    android:id="@+id/row5"
 
-    >
-    <Button
-        android:layout_width="wrap_content"
+    <!--
+    <TableRow
+        android:id="@+id/row5"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_style"
-        android:text="Back to Menu"
-        android:id="@+id/Menu"/>
+        android:layout_width="wrap_content"
+        android:padding="5dip"
+        android:gravity="center_horizontal" >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_style"
+            android:text="Back to Menu"
+            android:id="@+id/Menu"/>
 
-</TableRow>
-
-
-
+    </TableRow> -->
 
 </TableLayout>
-
-
-
-
-
-
-

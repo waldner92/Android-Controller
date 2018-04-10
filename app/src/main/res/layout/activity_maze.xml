@@ -1,69 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context="com.android.metg2.androidcontroller.activities.MazeActivity">
- <android.support.v7.widget.LinearLayoutCompat
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal"
-     android:layout_marginLeft="60dp"
-     android:layout_marginTop="20dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp">
+        <include android:id="@+id/column0"
+            layout="@layout/column_maze_layout">
+        </include>
 
-  <include android:id="@+id/column1"
-    layout="@layout/column_maze_layout">
+        <include android:id="@+id/column1"
+            layout="@layout/column_maze_layout">
+        </include>
 
-  </include>
+        <include android:id="@+id/column2"
+            layout="@layout/column_maze_layout">
+        </include>
 
-  <include android:id="@+id/column2"
-      layout="@layout/column_maze_layout">
+        <include android:id="@+id/column3"
+            layout="@layout/column_maze_layout">
+        </include>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="60dp"
+        android:layout_margin="20dp" >
 
-  </include>
+        <Button
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore Solution"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_style"/>
 
-  <include android:id="@+id/column3"
-      layout="@layout/column_maze_layout">
-
-  </include>
-
-  <include android:id="@+id/column4"
-      layout="@layout/column_maze_layout">
-
-  </include>
-
-
-
- </android.support.v7.widget.LinearLayoutCompat>
-<android.support.v7.widget.LinearLayoutCompat
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-
-
- <Button
-     android:id="@+id/play"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="Play Solution"
-     android:layout_marginTop="40dp"
-     android:background="@drawable/button_style"/>
-</android.support.v7.widget.LinearLayoutCompat>
-
- <android.support.v7.widget.LinearLayoutCompat
-     android:layout_width="match_parent"
-     android:layout_height="match_parent">
-
-  <Button
-      android:id="@+id/Menu"
-      android:layout_marginTop="40dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Back to Menu"
-      android:background="@drawable/button_style"
-
-      />
- </android.support.v7.widget.LinearLayoutCompat>
-</android.support.v7.widget.LinearLayoutCompat>
+        <Button
+            android:id="@+id/Menu"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play Solution"
+            android:background="@drawable/button_style" />
+    </LinearLayout>
+</LinearLayout>
 

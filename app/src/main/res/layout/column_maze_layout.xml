@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-<include android:id="@+id/onestep1"
-    layout="@layout/one_step_maze_layout"
-    />
-    <include android:id="@+id/onestep2"
-        layout="@layout/one_step_maze_layout"
-        />
-        <include android:id="@+id/onestep3"
-            layout="@layout/one_step_maze_layout"
-            />
-            <include android:id="@+id/onestep4"
-                layout="@layout/one_step_maze_layout"
-                />
-</android.support.v7.widget.LinearLayoutCompat>
+    <include android:id="@+id/row3"
+        layout="@layout/square_maze_layout" />
+    <include android:id="@+id/row2"
+        layout="@layout/square_maze_layout" />
+    <include android:id="@+id/row1"
+        layout="@layout/square_maze_layout" />
+    <include android:id="@+id/row0"
+        layout="@layout/square_maze_layout" />
+</LinearLayout>

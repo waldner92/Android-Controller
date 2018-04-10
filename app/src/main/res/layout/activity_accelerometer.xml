@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,67 +8,71 @@
     android:orientation="horizontal"
     android:layout_margin="10dp">
 
-    <TextView
+
+
+    <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="50dp"
-        android:text="Accelerometer Activity"
-        android:layout_marginTop="20dp"
-        android:id="@+id/Acc"
-        />
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:paddingRight="40dp"
+        android:paddingLeft="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:text="@string/accelerometer"/>
 
         <TextView
-            android:id="@+id/AccX"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_X"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Valor de X"
-            android:gravity="center_vertical"
-
-            />
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="@string/accX"
+            android:gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/AccY"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_Y"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Valor de Y"
-            android:gravity="center_vertical"
-
-            />
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="@string/accY"
+            android:gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/AccZ"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_Z"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Valor de Z"
-            android:gravity="center_vertical"
-            />
-    </android.support.v7.widget.LinearLayoutCompat>
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textSize="20sp"
+            android:text="@string/accZ"
+            android:gravity="center_horizontal"/>
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="20dp">
 
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back to Menu"
             android:id="@+id/Menu"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"/> -->
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    </TableLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp"
+        android:paddingLeft="40dp"
+        android:src="@drawable/accelerometer"/>
 
 
-</android.support.v7.widget.LinearLayoutCompat>
+
+</LinearLayout>
 
 
 

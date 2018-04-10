@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Android-Controller.iml" filepath="$PROJECT_DIR$/.idea/Android-Controller.iml" />
-      <module fileurl="file://C:\Users\JORDI\AndroidStudioProjects\AndroidRobot\Android-Controller\AndroidController.iml" filepath="C:\Users\JORDI\AndroidStudioProjects\AndroidRobot\Android-Controller\AndroidController.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

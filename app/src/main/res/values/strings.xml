@@ -9,14 +9,24 @@
 
     <!-- Logs -->
     <string name="logs_header">List of Logs:</string>
-    <string name="title_activity_mainhjghu">MainhjghuActivity</string>
+
+    <!-- Remote Control -->
     <string name="grados">10/u2103 C</string>
-    <string name="OFF">OFF</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="lights">LIGHTS</string>
+    <string name="auto_man">AUTO/MAN</string>
+    <string name="speed">Speed: </string>
+    <string name="gears">Gears: </string>
+    <string name="gear_up">GEAR UP</string>
+    <string name="gear_down">GEAR DOWN</string>
+    <string name="go">GO!</string>
 
-    <string name="Lights">LIGHTS</string>
-
-
-    <string name="AUTOMAN">AUTO/MAN</string>
+    <!-- Accelerometer -->
+    <string name="accelerometer">ACCELEROMETER</string>
+    <string name="accX">X value: </string>
+    <string name="accY">Y value: </string>
+    <string name="accZ">Z value: </string>
 
 
 </resources>
