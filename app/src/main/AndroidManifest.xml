@@ -22,10 +22,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RemoteControlActivity" />
-        <activity android:name=".activities.AccelerometerActivity" />
-        <activity android:name=".activities.MazeActivity" />
-        <activity android:name=".activities.LogsActivity" />
+        <activity android:name=".activities.RemoteControlActivity"
+            android:parentActivityName=".activities.MainMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainMenuActivity"/>
+        </activity>
+        <activity android:name=".activities.AccelerometerActivity"
+            android:parentActivityName=".activities.MainMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainMenuActivity"/>
+        </activity>
+        <activity android:name=".activities.MazeActivity"
+            android:parentActivityName=".activities.MainMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainMenuActivity"/>
+        </activity>
+        <activity android:name=".activities.LogsActivity"
+            android:parentActivityName=".activities.MainMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainMenuActivity"/>
+        </activity>
 
         <service
             android:name=".communication.CommunicationService"

@@ -39,17 +39,13 @@ public class LogsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "requestWindowFeature(Window.FEATURE_ACTION_BAR);");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);");
 
 
         super.onCreate(savedInstanceState);
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "super.onCreate(savedInstanceState);");
         setContentView(R.layout.activity_logs);
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("DEBUG", "setContentView(R.layout.activity_logs);");
         ActionBar actBar = getSupportActionBar();
-        actBar.setHomeButtonEnabled(true);
+        actBar.setDisplayHomeAsUpEnabled(true);
 
         initViewModel();
 
@@ -69,24 +65,6 @@ public class LogsActivity extends AppCompatActivity {
 
         super.onStop();
 
-    }
-
-    /**
-     * This method finishes the current activity when the the button to go to parent activity
-     * is pressed.
-     *
-     * @param item The item pressed from the Action Bar
-     * @return boolean
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
