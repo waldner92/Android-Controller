@@ -47,7 +47,9 @@
         <TextView
             android:id="@+id/temperature"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="10ºC" />
+            android:textAlignment="viewEnd"
+            android:paddingRight="10dp"
+            android:text="@string/grados" />
 
         <Button
             android:id="@+id/autMan_button"
@@ -82,6 +84,8 @@
             android:id="@+id/gears"
             android:text="@string/gears"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="10dp"
+            android:textAlignment="viewEnd"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <Button

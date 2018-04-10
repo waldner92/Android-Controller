@@ -36,19 +36,19 @@
         android:layout_margin="20dp" >
 
         <Button
-            android:id="@+id/play"
+            android:id="@+id/explore_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Explore Solution"
+            android:text="@string/sol1"
             android:layout_marginTop="40dp"
             android:background="@drawable/button_style"/>
 
         <Button
-            android:id="@+id/Menu"
+            android:id="@+id/play_button"
             android:layout_marginTop="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play Solution"
+            android:text="@string/sol2"
             android:background="@drawable/button_style" />
     </LinearLayout>
 </LinearLayout>

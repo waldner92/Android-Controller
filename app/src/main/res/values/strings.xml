@@ -11,7 +11,7 @@
     <string name="logs_header">List of Logs:</string>
 
     <!-- Remote Control -->
-    <string name="grados">10/u2103 C</string>
+    <string name="grados">10 ºC</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>
     <string name="lights">LIGHTS</string>
@@ -27,6 +27,10 @@
     <string name="accX">X value: </string>
     <string name="accY">Y value: </string>
     <string name="accZ">Z value: </string>
+
+    <!-- Maze -->
+    <string name="sol1">Explore solution</string>
+    <string name="sol2">Play solution</string>
 
 
 </resources>
