@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.android.metg2.androidcontroller.activities.RemoteControlActivity;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
 
@@ -75,23 +76,27 @@ public class RemoteControlViewModel extends ViewModel {
 
         switch (angle){
 
-            case Constants.ANGLE_L2: Toast.makeText(applicationContext, "Turning left hard!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_L2: //Toast.makeText(applicationContext, "Turning left hard!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning left hard!");
                 break;
-            case Constants.ANGLE_L1: Toast.makeText(applicationContext, "Turning left soft!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_L1: //Toast.makeText(applicationContext, "Turning left soft!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning left soft!");
                 break;
-            case Constants.ANGLE_N: Toast.makeText(applicationContext, "Going straight forward!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_N: //Toast.makeText(applicationContext, "Going straight forward!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Going straight forward");
                 break;
-            case Constants.ANGLE_R1: Toast.makeText(applicationContext, "Turning right soft", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_R1: //Toast.makeText(applicationContext, "Turning right soft", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning right soft!");
                 break;
-            case Constants.ANGLE_R2: Toast.makeText(applicationContext, "Turning right hard!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_R2: //Toast.makeText(applicationContext, "Turning right hard!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning right hard!");
                 break;
 
         }
         return angle;
+    }
+
+    public void onShapeDetected(Context context, String name) {
+        Toast.makeText(context, "Yow drawed a " + name , Toast.LENGTH_SHORT).show();
     }
 }

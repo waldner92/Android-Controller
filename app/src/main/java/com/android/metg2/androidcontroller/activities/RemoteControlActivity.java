@@ -6,6 +6,7 @@ import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
+import android.gesture.Prediction;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -18,13 +19,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.metg2.androidcontroller.R;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
 import com.android.metg2.androidcontroller.viewmodels.RemoteControlViewModel;
 
-public class RemoteControlActivity extends AppCompatActivity implements SensorEventListener{
+import java.util.ArrayList;
+
+public class RemoteControlActivity extends AppCompatActivity implements SensorEventListener, GestureOverlayView.OnGesturePerformedListener{
 
     private Button autManButton;
     private Button lightsButton;
@@ -48,13 +52,13 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
     private boolean gas;
     private String angle;
     private String current_angle;
+    private double gY;
 
     private Sensor accelerometer;
     private SensorManager sManager;
 
-    /*private View gestureInflate;
     private GestureLibrary gestureLibrary;
-    private GestureOverlayView gestureOverlayView;*/
+    private GestureOverlayView gestureOverlayView;
 
     private RemoteControlViewModel viewModel;
 
@@ -92,6 +96,7 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
         gas = false;
         angle = Constants.ANGLE_N;
         current_angle = Constants.ANGLE_N;
+        gY = 0;
 
         sManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -99,11 +104,13 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
 
         viewModel = new RemoteControlViewModel();
 
-        /*gestureOverlayView = new GestureOverlayView(this);
-        gestureInflate = getLayoutInflater().inflate(R.layout.activity_remote_control, null);
-        gestureOverlayView.addView(gestureInflate);
+        gestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
         gestureOverlayView.addOnGesturePerformedListener(this);
-        gestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);*/
+        gestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gesture);
+        if (!gestureLibrary.load()) {
+            DebugUtils.debug("Gesture", "GestureLib not loaded");
+            finish();
+        }
 
 
         autManButton.setOnClickListener(new View.OnClickListener() {
@@ -204,12 +211,16 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        DebugUtils.debug("ACCEL", "Sensor type is " + event.sensor.getStringType());
+        // alpha is calculated as t / (t + dT)
+        // with t, the low-pass filter's time-constant
+        // and dT, the event delivery rate
+
+        final double alpha = 0.9;
 
         if (event.sensor.getType()== Sensor.TYPE_ACCELEROMETER){
 
-            double gY = event.values[1];
-            DebugUtils.debug("ACCEL", "gY is " + gY);
+            gY = alpha * gY + (1 - alpha) * event.values[1];
+            //DebugUtils.debug("ACCEL", "gY is " + gY);
 
             if (gY < -6) {
 
@@ -240,7 +251,25 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
 
     }
 
+    /**
+     * It detects the gesture the user has drawn on the screen.
+     *
+     * @param overlay GestureOverlayView
+     * @param gesture Gesture
+     */
+    @Override
+    public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
 
+        ArrayList<Prediction> predictions = gestureLibrary.recognize(gesture);
+        Prediction prediction = predictions.get(0);
+        DebugUtils.debug("Shape Pred", "Score is " + prediction.score + " and name is " + prediction.name);
+
+
+        if (prediction.score > 1.0 && prediction.name.length() > 1) {
+
+            viewModel.onShapeDetected(this.getApplicationContext(), prediction.name);
+        }
+    }
 
     @Override
     public void onStop(){
@@ -254,11 +283,6 @@ public class RemoteControlActivity extends AppCompatActivity implements SensorEv
     @Override
     public void onResume() {
         super.onResume();
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }
