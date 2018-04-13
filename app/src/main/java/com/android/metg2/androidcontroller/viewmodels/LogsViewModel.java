@@ -44,12 +44,13 @@ public class LogsViewModel extends ViewModel implements Repository.RepositoryCal
 
     public void stopLogs(Context context){
         //tell the repository to stop the service
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in viewModel");
         repository.stopService(context);
     }
 
     /*-------------------------- Repository Callbacks -----------------------------*/
     @Override
-    public void onNewMessage(Message msg) {
+    public void onNewMessage(String msg) {
         //push message to the view
         entireLogs = entireLogs + msg + "\n";
         logs.postValue(entireLogs);

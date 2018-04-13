@@ -16,11 +16,11 @@
     <string name="on">ON</string>
     <string name="lights">LIGHTS</string>
     <string name="auto_man">AUTO/MAN</string>
-    <string name="speed">Speed: </string>
-    <string name="gears">Gears: </string>
+    <string name="speed">Speed: 0 Km/h</string>
+    <string name="gears">Gear: 0</string>
     <string name="gear_up">GEAR UP</string>
     <string name="gear_down">GEAR DOWN</string>
-    <string name="go">GO!</string>
+    <string name="go">GAS</string>
 
     <!-- Accelerometer -->
     <string name="accelerometer">ACCELEROMETER</string>

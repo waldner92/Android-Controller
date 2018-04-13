@@ -57,14 +57,18 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
         <Button
             android:layout_width="wrap_content"
             android:id="@+id/lights_button"
             android:text="@string/lights"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/lights_status"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -89,20 +93,24 @@
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <Button
-            android:id="@+id/gear_up_button"
-            android:text="@string/gear_up"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/button_style"/>
-
-        <Button
             android:id="@+id/gear_down_button"
             android:text="@string/gear_down"
             android:layout_width="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/gear_up_button"
+            android:text="@string/gear_up"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/speed"
@@ -119,12 +127,14 @@
         android:gravity="center_horizontal" >
 
         <Button
-            android:id="@+id/accelerometer_button"
+            android:id="@+id/gas_button"
             android:layout_width="wrap_content"
             android:paddingRight="30dp"
             android:paddingLeft="30dp"
             android:text="@string/go"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
     </TableRow>
 
     <!--

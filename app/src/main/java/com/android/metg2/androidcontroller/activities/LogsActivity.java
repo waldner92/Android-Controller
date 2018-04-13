@@ -61,8 +61,22 @@ public class LogsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //Handle Up button
+                com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in view");
+                viewModel.stopLogs(this);
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onStop(){
 
+        //viewModel.stopLogs(this);
         super.onStop();
 
     }
@@ -70,7 +84,8 @@ public class LogsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (textView != null)
+        viewModel.showLogs(this).observe(this, logsObserver);
+        if (textView == null)
             textView.append(entireMessage);
     }
 
@@ -91,7 +106,9 @@ public class LogsActivity extends AppCompatActivity {
      */
     public static void showLogs(String message) {
 
+        entireMessage = message;
         textView.setText(message);
+        //textView.append(message);
     }
 }
 

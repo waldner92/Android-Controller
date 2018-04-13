@@ -4,18 +4,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.android.metg2.androidcontroller.utils.Constants;
+import com.android.metg2.androidcontroller.utils.DebugUtils;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import static com.android.metg2.androidcontroller.communication.CommunicationThreads.runCommunicationThreads;
+import static com.android.metg2.androidcontroller.communication.CommunicationThreads.stopCommunicationThreads;
 
 /**
  * This is the communication service.
@@ -70,11 +70,14 @@ public class CommunicationService  extends Service{
         runCommunicationThreads();
         isRunning = true;
         Toast.makeText(this, "Communication with Arduino established", Toast.LENGTH_LONG).show();
+        sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
         return Service.START_STICKY;
     }
 
     @Override
     public void onDestroy() {
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in CommService");
+        stopCommunicationThreads();
         super.onDestroy();
         isRunning = false;
     }
@@ -85,6 +88,8 @@ public class CommunicationService  extends Service{
      */
     public static void sendDatagram(String datagram){
         CommunicationThreads.datagramToSend = datagram;
+        DebugUtils.debug("Datagram:", datagram);
+        //serviceCallbakcs.txMessageValue(datagram);
     }
 
     /*-------------------------- Service Binder -----------------------------*/
@@ -98,8 +103,24 @@ public class CommunicationService  extends Service{
     /*--------------------------------------------------------------------------*/
     /*-------------------------- Service Interface -----------------------------*/
     public interface CommunicationServiceInterface{
-        void rxMessageValue(Message message);
+        void rxMessageValue(String message);
+        void txMessageValue(String txMessage);
     }
     /*--------------------------------------------------------------------------*/
+
+    /*-------------------Message constructors-------------------*/
+    public static void sendRemoteControlMessage(String mode, String lights, String gear, String shape, String angle){
+
+        sendDatagram("type:" + Constants.RC_TYPE + ",mode:" + mode + ",lights:" + lights + ",gear:" + gear + ",shape:" + shape + ",angle:" + angle);
+    }
+    public static void sendAccelerometerMessage(String mode){
+
+        sendDatagram("type:" + Constants.ACCEL_TYPE + ",mode:" + mode);
+    }
+
+    public static void sendMazeMessage(String mode){
+
+        sendDatagram("type:" + Constants.MAZE_TYPE + ",mode:" + mode);
+    }
 
 }

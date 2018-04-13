@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.os.Message;
 
 import com.android.metg2.androidcontroller.communication.CommunicationService;
+import com.android.metg2.androidcontroller.utils.DebugUtils;
+
+import java.util.Calendar;
 
 /**
  * Created by Adri on 8/4/18.
@@ -34,7 +36,9 @@ public class Repository implements CommunicationService.CommunicationServiceInte
     }
 
     public void stopService(Context context) {
+        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in Respository");
         if (serviceIsBound) {
+            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered in if");
             context.unbindService(serviceConnection);
             serviceIsBound = false;
         }
@@ -64,14 +68,26 @@ public class Repository implements CommunicationService.CommunicationServiceInte
 
     /*------------------------- Service interface callbakcs -----------------------*/
     @Override
-    public void rxMessageValue(Message msg) {
+    public void rxMessageValue(String msg) {
         //push seconds value to the viewmodel
-        repositoryCallback.onNewMessage(msg);
+        //String time = (String) LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String time = Calendar.getInstance().getTime().toString();
+        DebugUtils.debug("PACKET RECEPTION", time);
+        DebugUtils.debug("PACKET RECEPTION", msg);
+        repositoryCallback.onNewMessage(time + " Received from Arduino: " + msg);
+    }
+
+    @Override
+    public void txMessageValue(String msg) {
+        //push seconds value to the viewmodel
+        //String time = (String) LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String time = Calendar.getInstance().getTime().toString();
+        repositoryCallback.onNewMessage(time + " Send to Arduino: " + msg);
     }
     /*-------------------------- Repository Interface -----------------------------*/
     public interface RepositoryCallbacks {
 
-        void onNewMessage(Message message);
+        void onNewMessage(String message);
         void onServiceStopped();
     }
 }

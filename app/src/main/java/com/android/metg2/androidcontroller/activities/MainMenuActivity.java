@@ -17,6 +17,11 @@ import com.android.metg2.androidcontroller.R;
  */
 public class MainMenuActivity extends AppCompatActivity {
 
+    private Button rcButton;
+    private Button mazeButton;
+    private Button accButton;
+    private Button logsButton;
+
     /**
      * OnCreate Method from Activity.
      *
@@ -32,15 +37,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
         //Initialize the four buttons from the menu
-        Button button_rc = findViewById(R.id.button);
-        Button button_maze = findViewById(R.id.button2);
-        Button button_acc = findViewById(R.id.button3);
-        Button button_logs = findViewById(R.id.button4);
+        rcButton = findViewById(R.id.button);
+        mazeButton = findViewById(R.id.button2);
+        accButton = findViewById(R.id.button3);
+        logsButton = findViewById(R.id.button4);
 
         //When a button is hit, each one creates its own intent to go through the corresponding activity
 
         //First button leads to Remote Control
-        button_rc.setOnClickListener(new View.OnClickListener() {
+        rcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -52,7 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         //Second button leads to the Maze Challenge
-        button_maze.setOnClickListener(new View.OnClickListener() {
+        mazeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -64,7 +69,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         //Third button leads to the Accelerometer Challenge
-        button_acc.setOnClickListener(new View.OnClickListener() {
+        accButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -76,7 +81,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         //Fourth button leads to Logs screen
-        button_logs.setOnClickListener(new View.OnClickListener() {
+        logsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

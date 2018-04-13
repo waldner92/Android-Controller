@@ -27,6 +27,10 @@
         <include android:id="@+id/column3"
             layout="@layout/column_maze_layout">
         </include>
+
+        <include android:id="@+id/column4"
+            layout="@layout/column_maze_layout">
+        </include>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,7 +45,9 @@
             android:layout_height="wrap_content"
             android:text="@string/sol1"
             android:layout_marginTop="40dp"
-            android:background="@drawable/button_style"/>
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/play_button"
@@ -49,7 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sol2"
-            android:background="@drawable/button_style" />
+            android:background="@drawable/button_style"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>
 
