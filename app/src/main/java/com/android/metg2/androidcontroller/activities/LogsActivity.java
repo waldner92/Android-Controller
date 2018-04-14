@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.fragments.LogsFragment;
+import com.android.metg2.androidcontroller.fragments.MainMenuFragment;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.viewmodels.LogsViewModel;
 
@@ -24,11 +27,8 @@ import com.android.metg2.androidcontroller.viewmodels.LogsViewModel;
  */
 public class LogsActivity extends AppCompatActivity {
 
-    private static String entireMessage = "";
-    private static TextView textView;
-
-    private LogsViewModel viewModel;
-    private Observer<String> logsObserver;
+    private String LOGS_FRAGMENT = "LOGS_FRAGMENT";
+    android.support.v4.app.Fragment fragment;
 
     /**
      * OnCreate Method from Activity.
@@ -47,18 +47,22 @@ public class LogsActivity extends AppCompatActivity {
         ActionBar actBar = getSupportActionBar();
         actBar.setDisplayHomeAsUpEnabled(true);
 
-        initViewModel();
-
-        textView = findViewById(R.id.logs);
-        //textView.setText(Constants.LOGS_HEADER);
-
-        viewModel.showLogs(this).observe(this, logsObserver);
-
-        /*CommunicationService.timeBetweenFrames = timeBetweenFrames;
-        if (!CommunicationService.isServiceRunning) {
-            startService(new Intent(this, CommunicationService.class));
-        }*/
+        initFragment();
     }
+
+    private void initFragment() {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        fragment = manager.findFragmentByTag(LOGS_FRAGMENT);
+        if (fragment == null){
+
+            fragment = LogsFragment.newInstance();
+        }
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        transaction.replace(R.id.activity_logs_container,fragment,LOGS_FRAGMENT);
+        transaction.commit();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -66,49 +70,11 @@ public class LogsActivity extends AppCompatActivity {
             case android.R.id.home:
                 //Handle Up button
                 com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in view");
-                viewModel.stopLogs(this);
+                fragment.onStop();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onStop(){
-
-        //viewModel.stopLogs(this);
-        super.onStop();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.showLogs(this).observe(this, logsObserver);
-        if (textView == null)
-            textView.append(entireMessage);
-    }
-
-    private void initViewModel(){
-        viewModel = ViewModelProviders.of(this).get(LogsViewModel.class);
-
-        logsObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String entireMessage) {
-                showLogs(entireMessage);
-            }
-        };
-    }
-
-    /**
-     * Method for adding a new row to the log register.
-     * @param message The log string
-     */
-    public static void showLogs(String message) {
-
-        entireMessage = message;
-        textView.setText(message);
-        //textView.append(message);
     }
 }
 

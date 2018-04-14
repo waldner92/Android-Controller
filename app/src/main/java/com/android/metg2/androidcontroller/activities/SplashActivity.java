@@ -1,12 +1,16 @@
 package com.android.metg2.androidcontroller.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 
 import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.fragments.SplashFragment;
 import com.android.metg2.androidcontroller.utils.Constants;
 
 import java.util.Timer;
@@ -19,6 +23,8 @@ import java.util.TimerTask;
  * @version 1.0
  */
 public class SplashActivity extends AppCompatActivity {
+
+    private String SPLASH_FRAGMENT = "SPLASH_FRAGMENT";
 
     /**
      * OnCreate Method from Activity.
@@ -37,20 +43,19 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
 
-        //Create a Timer Task that will trigger the MainMenuActivity after the set delay
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
+        initFragment();
+    }
 
-                //Create the intent that will start the MainMenuActivity
-                Intent intent = new Intent(SplashActivity.this, MainMenuActivity.class);
-                startActivity(intent);
-                finish(); //We don't want to show this activity again
-            }
-        };
+    private void initFragment() {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.Fragment fragment = manager.findFragmentByTag(SPLASH_FRAGMENT);
+        if (fragment == null){
 
-        //Create a new timer, assign it to the Timer Task and set the delay
-        Timer timer = new Timer();
-        timer.schedule(timerTask, Constants.SPLASH_SCREEN_DELAY);
+            fragment = SplashFragment.newInstance();
+        }
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        transaction.replace(R.id.activity_splash_container,fragment,SPLASH_FRAGMENT);
+        transaction.commit();
     }
 }

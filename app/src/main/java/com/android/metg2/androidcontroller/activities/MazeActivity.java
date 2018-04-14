@@ -1,6 +1,7 @@
 package com.android.metg2.androidcontroller.activities;
 
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,14 +12,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.fragments.AccelerometerFragment;
+import com.android.metg2.androidcontroller.fragments.MazeFragment;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
 import com.android.metg2.androidcontroller.viewmodels.MazeViewModel;
 
 public class MazeActivity extends AppCompatActivity {
 
-    private Button exploreButton;
-    private Button playButton;
-    private MazeViewModel viewModel;
+    private String MAZE_FRAGMENT = "MAZE_FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +30,20 @@ public class MazeActivity extends AppCompatActivity {
         ActionBar actBar = getSupportActionBar();
         actBar.setDisplayHomeAsUpEnabled(true);
 
-        exploreButton = findViewById(R.id.explore_button);
-        playButton = findViewById(R.id.play_button);
-        viewModel = new MazeViewModel();
+        initFragment();
+    }
 
-        exploreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DebugUtils.debug("MAZE", "Pressed explore button");
-                //Toast.makeText(v.getContext(), "Explore Button", Toast.LENGTH_LONG).show();
-                viewModel.onExploreButton(v.getContext());
-            }
-        });
+    private void initFragment() {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.Fragment fragment = manager.findFragmentByTag(MAZE_FRAGMENT);
+        if (fragment == null){
 
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DebugUtils.debug("MAZE", "Pressed play button");
-                //Toast.makeText(v.getContext(), "Play Button", Toast.LENGTH_LONG).show();
-                viewModel.onPlayButton(v.getContext());
-            }
-        });
-
+            fragment = MazeFragment.newInstance();
+        }
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        transaction.replace(R.id.activity_maze_container,fragment, MAZE_FRAGMENT);
+        transaction.commit();
     }
 
     @Override
@@ -59,8 +52,6 @@ public class MazeActivity extends AppCompatActivity {
         super.onStop();
 
     }
-
-
 
     @Override
     public void onResume() {

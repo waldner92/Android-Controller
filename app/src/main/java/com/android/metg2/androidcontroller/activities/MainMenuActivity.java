@@ -2,12 +2,15 @@ package com.android.metg2.androidcontroller.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.fragments.MainMenuFragment;
+import com.android.metg2.androidcontroller.fragments.SplashFragment;
 
 /**
  * Main Menu Activity. It is the menu that shows the four available options to do next.
@@ -17,10 +20,7 @@ import com.android.metg2.androidcontroller.R;
  */
 public class MainMenuActivity extends AppCompatActivity {
 
-    private Button rcButton;
-    private Button mazeButton;
-    private Button accButton;
-    private Button logsButton;
+    private String MAIN_MENU_FRAGMENT = "MAIN_MENU_FRAGMENT";
 
     /**
      * OnCreate Method from Activity.
@@ -36,60 +36,19 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
 
-        //Initialize the four buttons from the menu
-        rcButton = findViewById(R.id.button);
-        mazeButton = findViewById(R.id.button2);
-        accButton = findViewById(R.id.button3);
-        logsButton = findViewById(R.id.button4);
+        initFragment();
+    }
 
-        //When a button is hit, each one creates its own intent to go through the corresponding activity
+    private void initFragment() {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.Fragment fragment = manager.findFragmentByTag(MAIN_MENU_FRAGMENT);
+        if (fragment == null){
 
-        //First button leads to Remote Control
-        rcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainMenuActivity.this, RemoteControlActivity.class);
-
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-        //Second button leads to the Maze Challenge
-        mazeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainMenuActivity.this, MazeActivity.class);
-
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-        //Third button leads to the Accelerometer Challenge
-        accButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainMenuActivity.this, AccelerometerActivity.class);
-
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-        //Fourth button leads to Logs screen
-        logsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainMenuActivity.this, LogsActivity.class);
-
-                startActivity(intent);
-                //finish();
-            }
-        });
+            fragment = MainMenuFragment.newInstance();
+        }
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        transaction.replace(R.id.activity_main_menu_container,fragment,MAIN_MENU_FRAGMENT);
+        transaction.commit();
     }
 }

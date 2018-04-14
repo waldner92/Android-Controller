@@ -1,82 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.metg2.androidcontroller.activities.MainMenuActivity"
-    android:background="@drawable/menubackgroung"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <View
-        android:id="@+id/view"
+    <FrameLayout
+        android:id="@+id/activity_main_menu_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="100"
-        android:padding="30dp">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="25"
-            android:text="@string/menu_option_1"
-            android:background="@drawable/button_style"
-            android:layout_marginBottom="15dp"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="30dp"/>
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="25"
-            android:layout_marginBottom="15dp"
-            android:text="@string/menu_option_2"
-            android:background="@drawable/button_style"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="30dp"/>
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="25"
-            android:text="@string/menu_option_3"
-            android:background="@drawable/button_style"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="30dp"/>
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="25"
-            android:text="@string/menu_option_4"
-            android:background="@drawable/button_style"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="30dp"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
 </LinearLayout>

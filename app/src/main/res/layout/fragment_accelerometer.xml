@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.metg2.androidcontroller.activities.AccelerometerActivity"
+    android:orientation="horizontal"
+    android:layout_margin="10dp">
+
+
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:paddingRight="40dp"
+        android:paddingLeft="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:text="@string/accelerometer"/>
+
+        <TextView
+            android:id="@+id/tv_X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="@string/accX"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/tv_Y"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="@string/accY"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/tv_Z"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textSize="20sp"
+            android:text="@string/accZ"
+            android:gravity="center_horizontal"/>
+
+
+        <!--
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Menu"
+            android:id="@+id/Menu"
+            android:background="@drawable/button_style"/> -->
+
+    </TableLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp"
+        android:paddingLeft="40dp"
+        android:src="@drawable/accelerometer"/>
+
+
+
+</LinearLayout>
+
+
+
+

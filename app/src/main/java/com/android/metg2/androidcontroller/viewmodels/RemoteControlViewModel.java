@@ -76,19 +76,19 @@ public class RemoteControlViewModel extends ViewModel {
 
         switch (angle){
 
-            case Constants.ANGLE_L2: //Toast.makeText(applicationContext, "Turning left hard!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_L2: if (applicationContext != null) Toast.makeText(applicationContext, "Turning left hard!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning left hard!");
                 break;
-            case Constants.ANGLE_L1: //Toast.makeText(applicationContext, "Turning left soft!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_L1: if (applicationContext != null) Toast.makeText(applicationContext, "Turning left soft!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning left soft!");
                 break;
-            case Constants.ANGLE_N: //Toast.makeText(applicationContext, "Going straight forward!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_N: if (applicationContext != null) Toast.makeText(applicationContext, "Going straight forward!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Going straight forward");
                 break;
-            case Constants.ANGLE_R1: //Toast.makeText(applicationContext, "Turning right soft", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_R1: if (applicationContext != null) Toast.makeText(applicationContext, "Turning right soft", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning right soft!");
                 break;
-            case Constants.ANGLE_R2: //Toast.makeText(applicationContext, "Turning right hard!", Toast.LENGTH_SHORT).show();
+            case Constants.ANGLE_R2: if (applicationContext != null) Toast.makeText(applicationContext, "Turning right hard!", Toast.LENGTH_SHORT).show();
                 DebugUtils.debug("ACCEL", "Turning right hard!");
                 break;
 
