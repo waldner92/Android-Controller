@@ -57,5 +57,16 @@ public class Constants {
     public final static int MAX_GEAR = 3;
     public final static int MIN_GEAR = -3;
 
+    public final static int CELL_NONE = 0;
+    public final static int CELL_UNEXPLORED = 1;
+    public final static int CELL_EXPLORING = 2;
+    public final static int CELL_CURRENT = 3;
+    public final static int CELL_EXPLORED = 4;
+    public final static int CELL_SOLUTION = 5;
+    public final static int CELL_DISCARDED = 6;
+    public final static int WALL_TRUE = 7;
+    public final static int WALL_FALSE = 8;
+
+
 
 }

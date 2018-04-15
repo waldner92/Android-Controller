@@ -23,7 +23,7 @@ public class LogsViewModel extends ViewModel implements Repository.RepositoryCal
     private MutableLiveData<String> logs;
 
     //all logs
-    private static String entireLogs = "";
+    private static String entireLogs;
 
     public LogsViewModel(){
         repository = new Repository(this);
@@ -33,7 +33,7 @@ public class LogsViewModel extends ViewModel implements Repository.RepositoryCal
         if(logs == null){
             //init observable variable
             logs = new MutableLiveData<>();
-            entireLogs = Constants.LOGS_HEADER;
+            if (entireLogs == null) entireLogs = Constants.LOGS_HEADER;
             logs.postValue(entireLogs);
         }
         //tell the repository to start the service

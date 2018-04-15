@@ -31,7 +31,7 @@ public class LogsFragment extends Fragment {
     private static TextView textView;
 
     private LogsViewModel viewModel;
-    private Observer<String> logsObserver;
+    private static Observer<String> logsObserver;
 
     public static LogsFragment newInstance(){
         return new LogsFragment();

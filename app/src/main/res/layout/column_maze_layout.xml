@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include android:id="@+id/row4"
+        layout="@layout/square_maze_layout" />
     <include android:id="@+id/row3"
         layout="@layout/square_maze_layout" />
     <include android:id="@+id/row2"
         layout="@layout/square_maze_layout" />
     <include android:id="@+id/row1"
-        layout="@layout/square_maze_layout" />
-    <include android:id="@+id/row0"
         layout="@layout/square_maze_layout" />
     <include android:id="@+id/row0"
         layout="@layout/square_maze_layout" />
