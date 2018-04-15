@@ -2,14 +2,9 @@ package com.android.metg2.androidcontroller.communication;
 
 
 import android.content.Intent;
-import android.os.Binder;
-import android.os.IBinder;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import android.os.AsyncTask;
 
 import com.android.metg2.androidcontroller.activities.MainMenuActivity;
-import com.android.metg2.androidcontroller.activities.SplashActivity;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
 
@@ -39,7 +34,7 @@ import static java.net.InetAddress.getByName;
  */
 class CommunicationThreads {
 
-    private static TransmitionThread txThread;
+    private static TransmitionTask txTask;
     private static ReceptionThread rxThread;
     static String datagramToSend;
 
@@ -48,9 +43,9 @@ class CommunicationThreads {
      * the CommunicationService service class
      */
     static void runCommunicationThreads() {
-        txThread = new TransmitionThread();
+        txTask = new TransmitionTask();
         rxThread = new ReceptionThread();
-        txThread.start();
+        txTask.execute();
         rxThread.start();
     }
 
@@ -60,9 +55,9 @@ class CommunicationThreads {
     static void stopCommunicationThreads() {
 
         com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in CommThreads");
-        if (txThread.isAlive()) {
-            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting txThread");
-            txThread.mustRun(false);
+        if (!txTask.isCancelled()) {
+            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting txTask");
+            txTask.cancel(false);
         }
 
         if (rxThread.isAlive()) {
@@ -146,14 +141,14 @@ class CommunicationThreads {
     /**
      * This methods sends the UDP datagrams to the arduino
      */
-    private static class TransmitionThread extends Thread {
+    private static class TransmitionTask extends AsyncTask<Void, Void, Void> {
 
-        private boolean mustRun = false;
+        /*private boolean mustRun = false;
 
         public void mustRun(boolean r){
 
             mustRun = r;
-            DebugUtils.debug("TX_THREAD", "Run modified to " + r);
+            DebugUtils.debug("TX_TASK", "Run modified to " + r);
         }
 
 
@@ -165,21 +160,14 @@ class CommunicationThreads {
             mustRun = true;
             this.sendMessage();
 
-        }
-
+        }*/
+        /*
         /**
          * This method is a loop that sends the UDP datagrams to the Arduino
          */
-        private void sendMessage() {
-
-            /*Timer timer = new Timer();
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
+        /*private void sendMessage() {
 
 
-                }
-            };*/
             //int i = 0;
             while (mustRun) {
                 try {
@@ -210,8 +198,58 @@ class CommunicationThreads {
                 }
             }
             com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","txThread interrupted and run is " + mustRun);
+        }*/
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if (!isCancelled()){
+
+                try {
+
+                    if (datagramToSend != null) {
+                        //DebugUtils.debug(Constants.TX_THREAD_TAG,"TransmiterThread run method is running.");
+                        byte[] message = datagramToSend.getBytes();
+                        DebugUtils.debug("TX_TASK Packet sent", datagramToSend);
+                        DatagramPacket packet = new DatagramPacket(message, message.length, getByName(Constants.SERVER_IP), Constants.SERVER_PORT);
+                        DatagramSocket dsocket = new DatagramSocket();
+                        dsocket.send(packet);
+                        dsocket.close();
+                        if (serviceCallbakcs != null) serviceCallbakcs.txMessageValue(datagramToSend);
+
+
+                        //Create a new timer, assign it to the Timer Task and set the delay
+                        //timer.schedule(timerTask, Constants.FramePeriod);
+                        //Thread.sleep(Constants.FramePeriod);
+
+                    } else {
+                        DebugUtils.debug("Packet sent: ", "is null");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            //Create a Timer Task that will trigger the transmission of the next packet
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+
+                    txTask = new TransmitionTask();
+                    txTask.execute();
+                }
+            };
+
+            //Create a new timer, assign it to the Timer Task and set the delay
+            Timer timer = new Timer();
+            timer.schedule(timerTask, Constants.FramePeriod);
+        }
 
     }
 

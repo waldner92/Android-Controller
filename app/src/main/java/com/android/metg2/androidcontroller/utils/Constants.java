@@ -18,10 +18,10 @@ public class Constants {
     public final static String LOGS_HEADER = "List of Logs:\n";
 
     public final static long FramePeriod = 5000;
-    public final static String SERVER_IP = "192.168.1.147";
+    public final static String SERVER_IP = "192.168.0.155";//"192.168.1.147";
     public final static int SERVER_PORT =  10101;
     public final static int BUFFER_SYZE = 10000;
-    public final static String LOCAL_IP = "192.168.1.126";
+    public final static String LOCAL_IP = "192.168.0.158";//"192.168.1.126";
     public final static int LOCAL_PORT =  10102;
     public final static String RX_THREAD_TAG = "ReceptionThread";
     public final static String TX_THREAD_TAG = "TrasmitionThread";

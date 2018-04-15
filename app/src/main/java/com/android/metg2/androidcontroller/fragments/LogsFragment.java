@@ -97,9 +97,9 @@ public class LogsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.showLogs(getContext()).observe(this, logsObserver);
-        if (textView == null)
-            textView.append(entireMessage);
+        //viewModel.showLogs(getContext()).observe(this, logsObserver);
+        /*if (textView == null)
+            textView.append(entireMessage);*/
     }
 
     private void initViewModel(){
