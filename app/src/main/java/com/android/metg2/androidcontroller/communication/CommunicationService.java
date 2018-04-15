@@ -14,8 +14,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import static com.android.metg2.androidcontroller.communication.CommunicationThreads.runCommunicationThreads;
-import static com.android.metg2.androidcontroller.communication.CommunicationThreads.stopCommunicationThreads;
+import static com.android.metg2.androidcontroller.communication.CommunicationTasks.runCommunicationThreads;
+import static com.android.metg2.androidcontroller.communication.CommunicationTasks.stopCommunicationThreads;
 
 /**
  * This is the communication service.
@@ -87,7 +87,7 @@ public class CommunicationService  extends Service{
      * @param datagram String datagram to send.
      */
     public static void sendDatagram(String datagram){
-        CommunicationThreads.datagramToSend = datagram;
+        CommunicationTasks.datagramToSend = datagram;
         DebugUtils.debug("Datagram:", datagram);
         //serviceCallbakcs.txMessageValue(datagram);
     }

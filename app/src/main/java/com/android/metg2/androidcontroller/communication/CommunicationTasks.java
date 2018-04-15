@@ -32,12 +32,12 @@ import static java.net.InetAddress.getByName;
  * @author  Adria Acero, Adria Mallorqui, Jordi Miro
  * @version 1.0
  */
-class CommunicationThreads {
+class CommunicationTasks {
 
     private static TransmitionTask txTask;
     private static ReceptionTask rxTask;
     static String datagramToSend;
-    private static int msg_type;
+    //private static int msg_type;
     private static boolean tx_run;
     private static boolean rx_run;
 
@@ -48,7 +48,7 @@ class CommunicationThreads {
     static void runCommunicationThreads() {
         txTask = new TransmitionTask();
         rxTask = new ReceptionTask();
-        msg_type = 0;
+        //msg_type = 0;
         tx_run = true;
         rx_run = true;
         txTask.execute();
@@ -173,16 +173,19 @@ class CommunicationThreads {
                 DebugUtils.debug("Packet received", message);
                 if (message.length() > 0) {
                     //rxMsg.obj = message;
-                    msg_type = (msg_type + 1) % 3;
-                    switch (msg_type) {
+                    //msg_type = (msg_type + 1) % 3;
+                    switch (message) {
 
-                        case 0:
+                        case "Maze Challenge ACK":
+                            DebugUtils.debug("RX_TASK", "received maze challenge");
                             sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
                             break;
-                        case 1:
+                        case "Remote Control ACK":
+                            DebugUtils.debug("RX_TASK", "received remote control");
                             sendAccelerometerMessage(Constants.ACC_STOP);
                             break;
-                        case 2:
+                        case "Accelerometer Challenge ACK":
+                            DebugUtils.debug("RX_TASK", "received accelerometer challenge");
                             sendMazeMessage(Constants.MAZE_STOP);
                             break;
                     }
