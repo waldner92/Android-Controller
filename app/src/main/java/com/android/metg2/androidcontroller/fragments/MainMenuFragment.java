@@ -1,11 +1,9 @@
 package com.android.metg2.androidcontroller.fragments;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,54 +12,80 @@ import android.widget.Button;
 import com.android.metg2.androidcontroller.R;
 import com.android.metg2.androidcontroller.activities.AccelerometerActivity;
 import com.android.metg2.androidcontroller.activities.LogsActivity;
-import com.android.metg2.androidcontroller.activities.MainMenuActivity;
 import com.android.metg2.androidcontroller.activities.MazeActivity;
 import com.android.metg2.androidcontroller.activities.RemoteControlActivity;
-import com.android.metg2.androidcontroller.utils.Constants;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
- * Main Menu Activity. It is the menu that shows the four available options to do next.
+ * Main Menu Fragment. It is the actual view of the Main Menu Activity.
  *
- * @author  Adria Acero, Adria Mallorqui, Jordi Miro
+ * @author Adria Acero, Adria Mallorqui, Jordi Miro
  * @version 1.0
  */
 public class MainMenuFragment extends Fragment {
 
+    /**
+     * Button that triggers the Remote Control Activity.
+     */
     private Button rcButton;
+
+    /**
+     * Button that triggers the Maze Activity.
+     */
     private Button mazeButton;
+
+    /**
+     * Button that triggers the Accelerometer Activity.
+     */
     private Button accButton;
+
+    /**
+     * Button that triggers the Logs Activity.
+     */
     private Button logsButton;
 
-
+    /**
+     * Method that returns a new constructed Main Menu Fragment.
+     * @return MainMenuFragment The Main Menu Fragment
+     */
     public static MainMenuFragment newInstance(){
+
         return new MainMenuFragment();
     }
 
     /**
-     * OnCreate Method from Fragment.
+     * onCreate method from the fragment
      *
      * @param savedInstanceState Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
-
-
     }
 
+    /**
+     * onActivityCreated method from the fragment.
+     *
+     * @param savedInstanceState
+     */
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
     }
 
+    /**
+     * onCreateView method from the fragment. It sets the fragment layout and binds the views. It also
+     * defines the button listeners and triggers the next activity depending on the pressed button.
+     *
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstance Bundle
+     * @return View the fragment view
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
 
-        View v = inflater.inflate(R.layout.fragment_main_menu,container,false);
+        View v = inflater.inflate(R.layout.fragment_main_menu,container,false); //Get the corresponding layout
 
         //Initialize the four buttons from the menu
         rcButton = v.findViewById(R.id.button);
@@ -79,7 +103,6 @@ public class MainMenuFragment extends Fragment {
                 Intent intent = new Intent(getContext(), RemoteControlActivity.class);
 
                 startActivity(intent);
-                //finish();
             }
         });
 
@@ -91,7 +114,6 @@ public class MainMenuFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MazeActivity.class);
 
                 startActivity(intent);
-                //finish();
             }
         });
 
@@ -103,7 +125,6 @@ public class MainMenuFragment extends Fragment {
                 Intent intent = new Intent(getContext(), AccelerometerActivity.class);
 
                 startActivity(intent);
-                //finish();
             }
         });
 
@@ -115,7 +136,6 @@ public class MainMenuFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LogsActivity.class);
 
                 startActivity(intent);
-                //finish();
             }
         });
 

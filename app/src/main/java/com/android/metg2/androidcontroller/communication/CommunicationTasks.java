@@ -1,10 +1,8 @@
 package com.android.metg2.androidcontroller.communication;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.android.metg2.androidcontroller.activities.MainMenuActivity;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
 
@@ -23,277 +21,202 @@ import static com.android.metg2.androidcontroller.communication.CommunicationSer
 import static java.net.InetAddress.getByName;
 
 /**
- * This is a package-protected class that has the transmission and reception threads to communicate
- * with the Arduino.
- *
- * Each thread is a static class and can only be accessed from the CommunicationService
- * service class (the interface to controls these threads).
+ * This is a package-protected class that has the transmission and reception tasks to communicate
+ * with the Arduino. Each AsynTask is a static class and can only be accessed from the CommunicationService
+ * service class (the interface to control these tasks).
  *
  * @author  Adria Acero, Adria Mallorqui, Jordi Miro
  * @version 1.0
  */
 class CommunicationTasks {
 
-    private static TransmitionTask txTask;
+    /**
+     * The transmission AsynTask
+     */
+    private static TransmissionTask txTask;
+
+    /**
+     * The reception AsynTask
+     */
     private static ReceptionTask rxTask;
+
+    /**
+     * The datagram string to be send
+     */
     static String datagramToSend;
-    //private static int msg_type;
+
+    /**
+     * Indicates if the transmission AsynTask must continue running
+     */
     private static boolean tx_run;
+
+    /**
+     * Indicates if the reception AsynTask must continue running
+     */
     private static boolean rx_run;
 
     /**
-     * This method starts both communication threads. It can only be called from
-     * the CommunicationService service class
+     * This method starts both communication tasks. It can only be called from
+     * the CommunicationService service class.
      */
-    static void runCommunicationThreads() {
-        txTask = new TransmitionTask();
+    static void runCommunicationTasks() {
+
+        txTask = new TransmissionTask();
         rxTask = new ReceptionTask();
-        //msg_type = 0;
-        tx_run = true;
-        rx_run = true;
-        txTask.execute();
-        rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        tx_run = true; //Enable tx task
+        rx_run = true; //Enable rx task
+        txTask.execute(); //Start the tx task
+        rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); //Start the rx task in parallel to the tx task
     }
 
     /**
      * This method stops both communication threads
      */
-    static void stopCommunicationThreads() {
+    static void stopCommunicationTasks() {
 
         com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in CommThreads");
+
         if (!txTask.isCancelled()) {
+
             com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting txTask");
-            txTask.cancel(false);
+            txTask.cancel(false); //Stop the tx task
         }
 
         if (!rxTask.isCancelled()) {
+
             com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting rxTask");
-            rxTask.cancel(false);
+            rxTask.cancel(false); //Stop the rx task
         }
-        tx_run = false;
-        rx_run = false;
-        datagramToSend = null;
+
+        tx_run = false; //Disable tx task
+        rx_run = false; //Diasble the rx task
+        datagramToSend = null; //"Delete" the datagram to string so the next time that the service is started it does send anything until the datagram is set again
     }
 
     /**
-     * This class is the reception AsynTask in charge of receiving UDP datagrams from the Arduino
+     * This class is the reception AsynTask in charge of receiving UDP datagrams from the Arduino.
+     *
+     * @author Adria Acero, Adria Mallorqui, Jordi Miro
+     * @version 1.0
      */
     private static class ReceptionTask extends AsyncTask<Void, Void, Void> {
 
-        /*private boolean mustRun = false;
-
-        public void mustRun(boolean r){
-
-            mustRun = r;
-            DebugUtils.debug("RX_THREAD", "Run modified to " + r);
-        }
-
-        @Override
-        public void run(){
-
-            DebugUtils.debug(Constants.RX_THREAD_TAG, "Reception thread is running");
-            this.setName(Constants.RX_THREAD_TAG);
-            mustRun = true;
-            receiveMessage();
-        }*/
-
-        /*
         /**
-         * This method is a loop that receives the UDP datagrams from the Arduino
+         * doInBackground method from the reception task. It tries to get the received message from
+         * the socket. Depending on the received message, it prepares the next datagram to be send.
+         * Finally, it informs to the repository about the received message.
+         *
+         * @param voids Void
+         * @return Void null
          */
-        /*private void receiveMessage(){
-
-            int msg_type = 0;
-
-            while (mustRun) {
-
-                //Message rxMsg = new Message();
-                byte[] rxBuffer = new byte[Constants.BUFFER_SYZE];
-                //DebugUtils.debug(Constants.RX_THREAD_TAG, "ReceptionThread receiving method is running");
-
-                if (socket == null || socket.isClosed()){
-                    try {
-                        socket = new DatagramSocket(Constants.LOCAL_PORT);
-                    } catch (SocketException e) {
-                        e.printStackTrace();
-                    }
-                }
-                DatagramPacket packet = new DatagramPacket(rxBuffer, rxBuffer.length);
-                try {
-                    socket.receive(packet);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                final String message = new String(packet.getData()).trim();
-                DebugUtils.debug("Packet received", message);
-                if(message.length() > 0){
-                    //rxMsg.obj = message;
-                    msg_type = (msg_type+1) % 3;
-                    switch (msg_type){
-
-                        case 0: sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
-                                break;
-                        case 1: sendAccelerometerMessage(Constants.ACC_STOP);
-                                break;
-                        case 2: sendMazeMessage(Constants.MAZE_STOP);
-                                break;
-                    }
-                    serviceCallbakcs.rxMessageValue(message);//return the message to the Repository
-                }
-            }
-            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","rxThread interrupted");
-
-        }*/
-
         @Override
         protected Void doInBackground(Void... voids) {
 
             if (!isCancelled() && tx_run) {
 
-                //Message rxMsg = new Message();
-                byte[] rxBuffer = new byte[Constants.BUFFER_SYZE];
-                //DebugUtils.debug("RX_TASK", "ReceptionTaskis running");
+                byte[] rxBuffer = new byte[Constants.BUFFER_SYZE]; //buffer to store the received message
 
-                if (socket == null || socket.isClosed()) {
+                if (socket == null || socket.isClosed()) { //Create the socket using the specified local port if it has been previously closed
+
                     try {
                         socket = new DatagramSocket(Constants.LOCAL_PORT);
                     } catch (SocketException e) {
                         e.printStackTrace();
                     }
                 }
-                DatagramPacket packet = new DatagramPacket(rxBuffer, rxBuffer.length);
+
+                DatagramPacket packet = new DatagramPacket(rxBuffer, rxBuffer.length); //UDP packet to get the datagram from the socket
                 DebugUtils.debug("RX_TASK", "Before socket receive");
+
                 try {
-                    socket.receive(packet);
+                    socket.receive(packet); //get the datagram from the socket
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                DebugUtils.debug("RX_TASK", "After socket receive");
-                final String message = new String(packet.getData()).trim();
-                DebugUtils.debug("Packet received", message);
-                if (message.length() > 0) {
-                    //rxMsg.obj = message;
-                    //msg_type = (msg_type + 1) % 3;
-                    switch (message) {
 
-                        case "Maze Challenge ACK":
+                DebugUtils.debug("RX_TASK", "After socket receive");
+                final String message = new String(packet.getData()).trim(); //Get the data string from the datagram
+                DebugUtils.debug("Packet received", message);
+
+                if (message.length() > 0) {
+                    //Depending on the received message
+                    switch (message) {
+                        case "Maze Challenge ACK": //If it is a Maze ACK, next packet to be send is a Remote Control datagram
                             DebugUtils.debug("RX_TASK", "received maze challenge");
                             sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
                             break;
-                        case "Remote Control ACK":
+
+                        case "Remote Control ACK": //If it is a Remote Control ACK, next packet to be send is an Accelerometer datagram
                             DebugUtils.debug("RX_TASK", "received remote control");
                             sendAccelerometerMessage(Constants.ACC_STOP);
                             break;
-                        case "Accelerometer Challenge ACK":
+
+                        case "Accelerometer Challenge ACK": //If it is an Accelerometer ACK, next packet to be send is a Maze datagram
                             DebugUtils.debug("RX_TASK", "received accelerometer challenge");
                             sendMazeMessage(Constants.MAZE_STOP);
                             break;
                     }
-                    serviceCallbakcs.rxMessageValue(message);//return the message to the Repository
+                    serviceCallbakcs.rxMessageValue(message); //Return the message to the Repository
                 }
             }
             return null;
         }
 
+        /**
+         * onPostExecute method from the reception task. If the task must keep running (service not
+         * stopped), it calls a new reception task again.
+         *
+         * @param aVoid void
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
 
             if (rx_run) {
                 rxTask = new ReceptionTask();
-                rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); //Start the rx task in parallel to the tx task
             }
         }
     }
 
 
     /**
-     * This methods sends the UDP datagrams to the arduino
+     * This class is the transmission AsynTask in charge of sending UDP datagrams to the Arduino.
+     *
+     * @author Adria Acero, Adria Mallorqui, Jordi Miro
+     * @version 1.0
      */
-    private static class TransmitionTask extends AsyncTask<Void, Void, Void> {
+    private static class TransmissionTask extends AsyncTask<Void, Void, Void> {
 
-        /*private boolean mustRun = false;
-
-        public void mustRun(boolean r){
-
-            mustRun = r;
-            DebugUtils.debug("TX_TASK", "Run modified to " + r);
-        }
-
-
-        @Override
-        public void run (){
-
-            DebugUtils.debug(Constants.TX_THREAD_TAG, "Transmission thread is running");
-            this.setName(Constants.TX_THREAD_TAG);
-            mustRun = true;
-            this.sendMessage();
-
-        }*/
-        /*
         /**
-         * This method is a loop that sends the UDP datagrams to the Arduino
+         * doInBackground method from the transmission task. It tries to send the corresponding message
+         * using the socket. Depending on the received message, it prepares the next datagram to be send.
+         * Finally, it informs to the repository about the received message.
+         *
+         * @param voids Void
+         * @return Void null
          */
-        /*private void sendMessage() {
-
-
-            //int i = 0;
-            while (mustRun) {
-                try {
-
-                    if (datagramToSend != null) {
-                        //DebugUtils.debug(Constants.TX_THREAD_TAG,"TransmiterThread run method is running.");
-                        byte[] message = datagramToSend.getBytes();
-                        DebugUtils.debug("TX_THREAD Packet sent", datagramToSend);
-                        DatagramPacket packet = new DatagramPacket(message, message.length, getByName(Constants.SERVER_IP), Constants.SERVER_PORT);
-                        DatagramSocket dsocket = new DatagramSocket();
-                        dsocket.send(packet);
-                        dsocket.close();
-                        if (serviceCallbakcs != null) serviceCallbakcs.txMessageValue(datagramToSend);
-
-
-                        //Create a new timer, assign it to the Timer Task and set the delay
-                        ;
-                        //timer.schedule(timerTask, Constants.FramePeriod);
-                        Thread.sleep(Constants.FramePeriod);
-
-                        //Construct the next packet (still not implemented)
-
-                    } else {
-                        DebugUtils.debug("Packet sent: ", "is null");
-                    }
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","txThread interrupted and run is " + mustRun);
-        }*/
-
-
         @Override
         protected Void doInBackground(Void... voids) {
-
-            //DebugUtils.debug("TX_TASK", "Executing in brackground");
 
             if (!isCancelled() && tx_run){
 
                 try {
+                    if (datagramToSend != null) { //Only send a message if there is something to be send
 
-                    if (datagramToSend != null) {
-                        //DebugUtils.debug("TX_TASK","TransmiterTask run method is running.");
-                        byte[] message = datagramToSend.getBytes();
+                        byte[] message = datagramToSend.getBytes(); //Parse the datagram string into bytes
                         DebugUtils.debug("TX_TASK Packet sent", datagramToSend);
+
+                        //create the packet to be send using the message and set the destination to the server's port and IP
                         DatagramPacket packet = new DatagramPacket(message, message.length, getByName(Constants.SERVER_IP), Constants.SERVER_PORT);
-                        DatagramSocket dsocket = new DatagramSocket();
-                        dsocket.send(packet);
-                        dsocket.close();
-                        if (serviceCallbakcs != null) serviceCallbakcs.txMessageValue(datagramToSend);
+                        DatagramSocket dsocket = new DatagramSocket(); //create the socket tu send the packet
+                        dsocket.send(packet); //send the packet
+                        dsocket.close(); //close the socket
 
-
-                        //Create a new timer, assign it to the Timer Task and set the delay
-                        //timer.schedule(timerTask, Constants.FramePeriod);
-                        //Thread.sleep(Constants.FramePeriod);
+                        if (serviceCallbakcs != null) serviceCallbakcs.txMessageValue(datagramToSend); //Return the sent message to the repository
 
                     } else {
+
                         DebugUtils.debug("Packet sent: ", "is null");
                     }
                 } catch (IOException e) {
@@ -303,18 +226,24 @@ class CommunicationTasks {
             return null;
         }
 
+        /**
+         * onPostExecute method from the transmission task. If the task must keep running (service not
+         * stopped), it calls a new transmission task again after 5 seconds.
+         *
+         * @param aVoid void
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
 
             if (tx_run) {
+
                 //Create a Timer Task that will trigger the transmission of the next packet
-                //DebugUtils.debug("TX_TASK", "Preparing next task");
                 TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {
 
-                        txTask = new TransmitionTask();
-                        txTask.execute();
+                        txTask = new TransmissionTask();
+                        txTask.execute(); //Start the tx task
                     }
                 };
 
