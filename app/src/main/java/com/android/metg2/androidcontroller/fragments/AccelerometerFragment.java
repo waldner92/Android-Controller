@@ -59,6 +59,7 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
      * @param savedInstanceState
      */
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
     }
 

@@ -249,7 +249,7 @@ class CommunicationTasks {
 
                 //Create a new timer, assign it to the Timer Task and set the delay
                 Timer timer = new Timer();
-                timer.schedule(timerTask, Constants.FramePeriod);
+                timer.schedule(timerTask, Constants.FRAME_PERIOD);
             }
         }
 

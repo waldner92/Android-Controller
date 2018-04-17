@@ -12,11 +12,14 @@ import com.android.metg2.androidcontroller.BuildConfig;
  */
 public class DebugUtils {
 
+    /**
+     * Flag to control if we want to show the debug prints or not.
+     */
     private static final boolean DEBUG_ENABLE = true;
 
     /**
      * This method prints the message only if the app is build as debug (not release) and the private
-     * flag is activated
+     * flag is activated.
      *
      * @param TAG The TAG of the log
      * @param message The message to be printed
@@ -24,8 +27,8 @@ public class DebugUtils {
     public static void debug(String TAG, String message){
 
         if(BuildConfig.DEBUG && DEBUG_ENABLE){
+
             Log.d(TAG, message);
         }
-
     }
 }

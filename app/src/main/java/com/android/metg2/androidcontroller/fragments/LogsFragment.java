@@ -67,6 +67,7 @@ public class LogsFragment extends Fragment {
      * @param savedInstanceState
      */
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
     }
 

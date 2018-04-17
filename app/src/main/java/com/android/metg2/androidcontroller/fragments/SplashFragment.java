@@ -47,6 +47,7 @@ public class SplashFragment extends android.support.v4.app.Fragment {
      * @param savedInstanceState Bundle
      */
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
     }
 

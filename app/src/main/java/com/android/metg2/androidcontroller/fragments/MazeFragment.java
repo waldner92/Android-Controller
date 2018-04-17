@@ -70,6 +70,7 @@ public class MazeFragment extends Fragment {
      * @param savedInstanceState
      */
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
     }
 
