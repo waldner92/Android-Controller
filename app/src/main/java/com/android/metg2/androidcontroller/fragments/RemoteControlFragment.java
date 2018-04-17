@@ -453,7 +453,6 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
     @Override
     public void onPause() {
 
-
         super.onPause();
         //getActivity().finish(); it does not work properly
     }
