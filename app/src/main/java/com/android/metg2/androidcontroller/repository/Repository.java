@@ -131,7 +131,7 @@ public class Repository implements CommunicationService.CommunicationServiceInte
 
         //String time = (String) LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")); //Can not be called in API 21
         String time = Calendar.getInstance().getTime().toString(); //Get the current date and time
-        repositoryCallback.onNewMessage(time + " Send to Arduino: " + msg); //construct the log and push it to the Logs viewModel
+        repositoryCallback.onNewMessage(time + " Sent to Arduino: " + msg); //construct the log and push it to the Logs viewModel
     }
     /*-----------------------------------------------------------------------------*/
     /*-------------------------- Repository Interface -----------------------------*/

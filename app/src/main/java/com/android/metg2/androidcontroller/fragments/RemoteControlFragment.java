@@ -446,4 +446,15 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
 
         super.onResume();
     }
+
+    /**
+     * onPause method from the fragment.
+     */
+    @Override
+    public void onPause() {
+
+
+        super.onPause();
+        //getActivity().finish(); it does not work properly
+    }
 }

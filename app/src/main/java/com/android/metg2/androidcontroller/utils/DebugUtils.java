@@ -15,7 +15,7 @@ public class DebugUtils {
     /**
      * Flag to control if we want to show the debug prints or not.
      */
-    private static final boolean DEBUG_ENABLE = true;
+    private static final boolean DEBUG_ENABLE = false;
 
     /**
      * This method prints the message only if the app is build as debug (not release) and the private
