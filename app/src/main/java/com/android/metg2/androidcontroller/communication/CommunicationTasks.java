@@ -59,15 +59,24 @@ class CommunicationTasks {
      * This method starts both communication tasks. It can only be called from
      * the CommunicationService service class.
      */
-    static void runCommunicationTasks() {
+    static void runReceptionTask() {
 
-        txTask = new TransmissionTask();
         rxTask = new ReceptionTask();
 
-        tx_run = true; //Enable tx task
         rx_run = true; //Enable rx task
-        txTask.execute(); //Start the tx task
         rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); //Start the rx task in parallel to the tx task
+    }
+
+    /**
+     * This method starts both communication tasks. It can only be called from
+     * the CommunicationService service class.
+     */
+    static void runTransmitionTask() {
+
+        txTask = new TransmissionTask();
+
+        tx_run = true; //Enable tx task
+        txTask.execute(); //Start the tx task
     }
 
     /**
@@ -75,17 +84,14 @@ class CommunicationTasks {
      */
     static void stopCommunicationTasks() {
 
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in CommThreads");
 
         if (!txTask.isCancelled()) {
 
-            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting txTask");
             txTask.cancel(false); //Stop the tx task
         }
 
         if (!rxTask.isCancelled()) {
 
-            com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Interrupting rxTask");
             rxTask.cancel(false); //Stop the rx task
         }
 
@@ -113,7 +119,7 @@ class CommunicationTasks {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            if (!isCancelled() && tx_run) {
+            if (!isCancelled() && rx_run) {
 
                 byte[] rxBuffer = new byte[Constants.BUFFER_SYZE]; //buffer to store the received message
 
@@ -127,21 +133,20 @@ class CommunicationTasks {
                 }
 
                 DatagramPacket packet = new DatagramPacket(rxBuffer, rxBuffer.length); //UDP packet to get the datagram from the socket
-                DebugUtils.debug("RX_TASK", "Before socket receive");
 
                 try {
+                    DebugUtils.debug("RX_TASK", "Waiting for a new packet --------------------------------------------------------------------------------------------");
                     socket.receive(packet); //get the datagram from the socket
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                DebugUtils.debug("RX_TASK", "After socket receive");
                 final String message = new String(packet.getData()).trim(); //Get the data string from the datagram
                 DebugUtils.debug("Packet received", message);
 
                 if (message.length() > 0) {
                     //Depending on the received message
-                    switch (message) {
+                    /*switch (message) {
                         case "Maze Challenge ACK": //If it is a Maze ACK, next packet to be send is a Remote Control datagram
                             DebugUtils.debug("RX_TASK", "received maze challenge");
                             sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
@@ -156,8 +161,8 @@ class CommunicationTasks {
                             DebugUtils.debug("RX_TASK", "received accelerometer challenge");
                             sendMazeMessage(Constants.MAZE_STOP);
                             break;
-                    }
-                    serviceCallbakcs.rxMessageValue(message); //Return the message to the Repository
+                    }*/
+                    if (serviceCallbakcs != null) serviceCallbakcs.rxMessageValue(message); //Return the message to the Repository
                 }
             }
             return null;
@@ -235,6 +240,7 @@ class CommunicationTasks {
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            /*
             if (tx_run) {
 
                 //Create a Timer Task that will trigger the transmission of the next packet
@@ -250,7 +256,8 @@ class CommunicationTasks {
                 //Create a new timer, assign it to the Timer Task and set the delay
                 Timer timer = new Timer();
                 timer.schedule(timerTask, Constants.FRAME_PERIOD);
-            }
+            }*/
+            tx_run = false;
         }
 
     }

@@ -100,7 +100,7 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getContext(), RemoteControlActivity.class);
+                Intent intent = new Intent(getActivity(), RemoteControlActivity.class);
 
                 startActivity(intent);
             }

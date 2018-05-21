@@ -28,12 +28,12 @@ public class Constants {
     /**
      * The IP from the Arduino (the server).
      */
-    public final static String SERVER_IP = "10.0.14.37";//"192.168.1.147";
+    public final static String SERVER_IP = "192.168.0.158";
 
     /**
      * The UDP port where the Arduino (the server) is listening connections from.
      */
-    public final static int SERVER_PORT =  10101;
+    public final static int SERVER_PORT =  2390;
 
     /**
      * The size if the reception buffer (to get the packet from the socket), in bytes.
@@ -43,24 +43,65 @@ public class Constants {
     /**
      * The local UDP port where the app will send packets from and will listen for responses.
      */
-    public final static int LOCAL_PORT =  10102;
+    public final static int LOCAL_PORT =  10101;
+    /*-------------------------------------------------------------------------*/
+
+    /*-------------------------RESPONSE PACKET FIELDS--------------------------*/
+    //Type:rc,Aut:1,RBump:0,LBump:0,ColUs:1,gear:+2,ledsOn:0,sh:N,ang:00,temp:28.38
+    public final static int TYPE_FIELD = 0;
+    public final static int MANUAL_FIELD = 1;
+    public final static int TEMPERATURE_FIELD = 1;
+    public final static int BUMP_FIELD = 1;
+    public final static int X_FIELD = 1;
+    public final static int Y_FIELD = 2;
+    public final static int Z_FIELD = 3;
+    public final static int RIGHTB_FIELD = 2;
+    public final static int LEFTTB_FIELD = 3;
+    public final static int USONIC_FIELD = 4;
+    public final static int GEAR_FIELD = 5;
+    public final static int LIGHTS_FIELD = 6;
+    public final static int SHAPE_FIELD = 7;
+    public final static int ANGLE_FIELD = 8;
+    public final static int TEMP_FIELD = 9;
+
+    public final static int VALUE_FIELD = 1;
     /*-------------------------------------------------------------------------*/
 
     /*----------------------------PACKET VALUES--------------------------------*/
+    /**
+     * Indicates that the message type is Temperature.
+     */
+    public final static String TEMP_TYPE = "temp";
+
+    /**
+     * Indicates that the message type is Bumper.
+     */
+    public final static String BUMP_TYPE = "bump";
+
+    /**
+     * Indicates that the message type is Accelerometer.
+     */
+    public final static String ACCEL_TYPE = "acc";
+
+    /**
+     * Indicates that the message type is Maze.
+     */
+    public final static String MAZE_TYPE = "ma";
+
     /**
      * Indicates that the message type is Remote Control.
      */
     public final static String RC_TYPE = "rc";
 
     /**
-     * Indicates that the message type is Accelerometer.
+     * Indicates that the bumper detected is Right
      */
-    public final static String ACCEL_TYPE = "ac";
+    public final static String BUMP_RIGHT = "r";
 
     /**
-     * Indicates that the message type is Maze.
+     * Indicates that the bumper detected is Right
      */
-    public final static String MAZE_TYPE = "ma";
+    public final static String BUMP_LEFT = "l";
 
     /**
      * Indicates that the driving mode must be manual.
@@ -70,7 +111,7 @@ public class Constants {
     /**
      * Indicates that the driving mode must be automatic.
      */
-    public final static String RC_AUT = "aut";
+    public final static String RC_AUT = "auto";
 
     /**
      * Indicates that the robot lights must be turned on.
@@ -198,6 +239,26 @@ public class Constants {
      * The minimum gear at which the robot can drive.
      */
     public final static int MIN_GEAR = -3;
+
+    /**
+     * Identifies a circle shape
+     */
+    public final static String CIRCLE = "Circle";
+
+    /**
+     * Identifies a square shape
+     */
+    public final static String SQUARE = "Square";
+
+    /**
+     * Identifies a triangle shape
+     */
+    public final static String TRIANGLE = "Triangle";
+
+    /**
+     * Duration of the collision bumper state (in red) in millisecond
+     */
+    public final static int BUMPER_SCREEN_DELAY = 1000;
     /*-------------------------------------------------------------------------*/
 
     /*-----------------------------MAZE ACTIVITY-------------------------------*/

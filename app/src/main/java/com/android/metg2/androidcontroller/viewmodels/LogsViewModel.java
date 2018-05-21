@@ -75,16 +75,17 @@ public class LogsViewModel extends ViewModel implements Repository.RepositoryCal
     /*-------------------------- Repository Callbacks -----------------------------*/
 
     /**
-     * This callback method is called when there is a new log. It updated the entire list of logs and
+     * This callback method is called when there is a new message. It updated the entire list of logs and
      * refreshes the observable variable.
      *
-     * @param log String The new log
+     * @param msg String The new message
+     * @param time String the timestamp of the message
      */
     @Override
-    public void onNewMessage(String log) {
+    public void onNewMessage(String msg, String time) {
 
-        entireLogs = entireLogs + log + "\n"; //update the list of logs
-        logs.postValue(entireLogs); //push the list of logs to the view
+        //entireLogs = entireLogs + log + "\n"; //update the list of logs
+        //logs.postValue(entireLogs); //push the list of logs to the view
     }
 
     /**

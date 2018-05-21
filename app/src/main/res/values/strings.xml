@@ -24,9 +24,9 @@
 
     <!-- Accelerometer -->
     <string name="accelerometer">ACCELEROMETER</string>
-    <string name="accX">X value: </string>
-    <string name="accY">Y value: </string>
-    <string name="accZ">Z value: </string>
+    <string name="accX">X: </string>
+    <string name="accY">Y: </string>
+    <string name="accZ">Z: </string>
 
     <!-- Maze -->
     <string name="sol1">Explore solution</string>

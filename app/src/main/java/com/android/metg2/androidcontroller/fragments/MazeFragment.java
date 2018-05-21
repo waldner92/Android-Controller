@@ -322,14 +322,6 @@ public class MazeFragment extends Fragment {
     public void onStop(){
 
         super.onStop();
-    }
-
-    /**
-     * onResume method from the fragment.
-     */
-    @Override
-    public void onResume() {
-
-        super.onResume();
+        getActivity().finish();
     }
 }

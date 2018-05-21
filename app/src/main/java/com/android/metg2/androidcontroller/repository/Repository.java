@@ -11,6 +11,8 @@ import com.android.metg2.androidcontroller.utils.DebugUtils;
 
 import java.util.Calendar;
 
+import static com.android.metg2.androidcontroller.communication.CommunicationService.sendDatagram;
+
 /**
  * This class acts as an intermediate agent between the viewModels and the communication service. It
  * implements the communication service interface to obtain data from it (the messages). It also acts as
@@ -114,11 +116,10 @@ public class Repository implements CommunicationService.CommunicationServiceInte
     @Override
     public void rxMessageValue(String msg) {
 
-        //String time = (String) LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")); //Can not be called in API 21
         String time = Calendar.getInstance().getTime().toString(); //Get the current date and time
-        DebugUtils.debug("PACKET RECEPTION", time);
-        DebugUtils.debug("PACKET RECEPTION", msg);
-        repositoryCallback.onNewMessage(time + " Received from Arduino: " + msg); //construct the log and push it to the Logs viewModel
+        //DebugUtils.debug("PACKET RECEPTION", msg);
+        repositoryCallback.onNewMessage(msg, time);
+        //repositoryCallback.onNewMessage(time + " Received from Arduino: " + msg); //construct the log and push it to the Logs viewModel
     }
 
     /**
@@ -129,9 +130,17 @@ public class Repository implements CommunicationService.CommunicationServiceInte
     @Override
     public void txMessageValue(String msg) {
 
-        //String time = (String) LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")); //Can not be called in API 21
-        String time = Calendar.getInstance().getTime().toString(); //Get the current date and time
-        repositoryCallback.onNewMessage(time + " Sent to Arduino: " + msg); //construct the log and push it to the Logs viewModel
+        //String time = Calendar.getInstance().getTime().toString(); //Get the current date and time
+        //repositoryCallback.onNewMessage(time + " Sent to Arduino: " + msg); //construct the log and push it to the Logs viewModel
+    }
+
+    /**
+     * This function passes the new message to be sent to the Communication Service
+     * @param msg String the message to be sent
+     */
+    public void sendMessage(String msg){
+
+        sendDatagram(msg);
     }
     /*-----------------------------------------------------------------------------*/
     /*-------------------------- Repository Interface -----------------------------*/
@@ -140,7 +149,7 @@ public class Repository implements CommunicationService.CommunicationServiceInte
      */
     public interface RepositoryCallbacks {
 
-        void onNewMessage(String message);
+        void onNewMessage(String message, String time);
         void onServiceStopped();
     }
 }

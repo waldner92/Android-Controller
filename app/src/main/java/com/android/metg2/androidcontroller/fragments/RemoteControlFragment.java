@@ -1,17 +1,25 @@
 package com.android.metg2.androidcontroller.fragments;
 
+import android.app.Activity;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,11 +29,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.metg2.androidcontroller.R;
+import com.android.metg2.androidcontroller.activities.MainMenuActivity;
 import com.android.metg2.androidcontroller.utils.Constants;
 import com.android.metg2.androidcontroller.utils.DebugUtils;
+import com.android.metg2.androidcontroller.utils.RemoteControlInfo;
+import com.android.metg2.androidcontroller.viewmodels.LogsViewModel;
 import com.android.metg2.androidcontroller.viewmodels.RemoteControlViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static java.util.Arrays.asList;
 
 /**
  * Remote Control Fragment. It is the actual view of the Remote Control Activity. It implements the
@@ -65,67 +81,82 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
     /**
      * Shows the collision detection from the left bumper
      */
-    private View bumberLeftView;
+    private static View bumperLeftView;
 
     /**
      * Shows the collision detection from the right bumper
      */
-    private View bumperRightView;
+    private static View bumperRightView;
 
     /**
      * Shows the collision detection from the ultrasound sensor
      */
-    private View ultraSoundView;
+    private static View ultraSoundView;
 
     /**
      * Shows the received temperature from the robot
      */
-    private TextView temperatureTextView;
+    private static TextView temperatureTextView;
 
     /**
      * Show the lights state from the robot
      */
-    private TextView lightsTextView;
+    private static TextView lightsTextView;
 
     /**
      * Shows the current gear from the robot
      */
-    private TextView gearsTextView;
+    private static TextView gearsTextView;
 
     /**
      * Shows the current speed from the robot
      */
-    private TextView speedTextView;
+    private static TextView speedTextView;
 
     /**
      * The current gear
      */
-    private int gear;
+    private static int gear;
 
     /**
      * The current speed
      */
-    private int speed;
+    private static int speed;
 
     /**
      * True if robot lights are on and false if they are off
      */
-    private boolean lightsON;
+    private static boolean lightsON;
 
     /**
      * True if the current driving mode is manual and false if it is automatic
      */
-    private boolean isManual;
+    private static boolean isManual;
 
     /**
      * The received temperature
      */
-    private int temperature;
+    private static float temperature;
 
     /**
      * True if the robot is accelerating and false if it is stopped
      */
-    private boolean gas;
+    private static boolean gas;
+
+    /**
+     * True if the robot detects collision danger with the ultrasonic sensor and false otherwise
+     */
+    private static boolean ultraSonic;
+
+    /**
+     * True if the robot detects collision with the right bumper and false otherwise
+     */
+    private static boolean rightBumper;
+
+    /**
+     * True if the robot detects collision with the left bumper and false otherwise
+     */
+    private static boolean leftBumper;
 
     /**
      * The current turning angle of the robot
@@ -166,6 +197,16 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
      * The viewModel
      */
     private RemoteControlViewModel viewModel;
+
+    /**
+     * Contains the current status of all items showed on the screen
+     */
+    private static Observer<RemoteControlInfo> rcInfo;
+
+    private static Drawable buttonStyle;
+
+    private static Handler m_handler;
+    private static Runnable m_handlerTask ;
 
     /**
      * Method that returns a new constructed Remote Control Fragment.
@@ -217,8 +258,11 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
         gearDownButton = v.findViewById(R.id.gear_down_button);
         gasButton = v.findViewById(R.id.gas_button);
 
+        final List<Button> deactivateButtons = asList(gearUpButton, gearDownButton,
+                gasButton, lightsButton);
+
         //Initialize the views
-        bumberLeftView = v.findViewById(R.id.bumper_left);
+        bumperLeftView = v.findViewById(R.id.bumper_left);
         bumperRightView = v.findViewById(R.id.bumper_right);
         ultraSoundView = v.findViewById(R.id.ultrasound);
         temperatureTextView = v.findViewById(R.id.temperature);
@@ -236,13 +280,16 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
         angle = Constants.ANGLE_N;
         current_angle = Constants.ANGLE_N;
         gY = 0;
+        buttonStyle = this.getResources().getDrawable(R.drawable.button_style);
 
         //Get the acceleremoter sensor and register its listener
         sManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        viewModel = new RemoteControlViewModel(); //initialize the viewModel
+        initViewModel(deactivateButtons); //Start the communication service
+
+        viewModel.showInfo(getContext()).observe(this, rcInfo); //Refresh continuously the list of logs
 
         //Create the gesture overlay view and register its listener
         gestureOverlayView = v.findViewById(R.id.gestureOverlay);
@@ -263,9 +310,7 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                //now it updates the value of isManual, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
-                isManual = viewModel.onAutManPressed(v.getContext(), isManual);
+                viewModel.onAutManPressed(v.getContext(), isManual);
             }
         });
 
@@ -274,17 +319,7 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                //now it updates the value of lightsON, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
-                lightsON = viewModel.onLightsPressed(v.getContext(), lightsON);
-
-                if (lightsON){
-
-                    lightsTextView.setText(getString(R.string.on));
-                }else {
-
-                    lightsTextView.setText(getString(R.string.off));
-                }
+                viewModel.onLightsPressed(v.getContext(), lightsON);
             }
         });
 
@@ -293,11 +328,8 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                //now it updates the value of gear, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
-                gear = viewModel.onGearUpPressed(v.getContext(), gear);
-                speed = viewModel.calculateSpeed(gear);
-                setTextviews();
+                viewModel.onGearUpPressed(v.getContext(), gear);
+                viewModel.calculateSpeed(gear);
             }
         });
 
@@ -306,11 +338,8 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                //now it updates the value of gear, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
-                gear = viewModel.onGearDownPressed(v.getContext(), gear);
-                speed = viewModel.calculateSpeed(gear);
-                setTextviews();
+                viewModel.onGearDownPressed(v.getContext(), gear);
+                viewModel.calculateSpeed(gear);
             }
         });
 
@@ -320,14 +349,12 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                //now it updates the value of gear, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    gas = viewModel.onGas(v.getContext()); //accelerate
+                    viewModel.onGas(v.getContext()); //accelerate
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                    gas = viewModel.onStop(v.getContext()); //stop
+                    viewModel.onStop(v.getContext()); //stop
                 }
                 return false;
             }
@@ -394,8 +421,6 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
             //If the angle has changed from the current turning angle of the robot, ask it to change its turning angle
             if (!current_angle.equals(angle)){
 
-                //now it updates the value of angle, but in future implementations this value will
-                //be updated after receiving the corresponding message from the Arduino
                 angle = viewModel.onAngleChanged(getContext(), current_angle);
             }
         }
@@ -430,30 +455,160 @@ public class RemoteControlFragment extends Fragment implements SensorEventListen
     }
 
     /**
+     * This method refreshes the info of the remote control status.
+     * @param info The object that contains all the info
+     * @param deactivateButtons
+     */
+    public static void showInfo(RemoteControlInfo info, List<Button> deactivateButtons) {
+
+        if (info.isLeftBumper()){
+
+            leftBumper = true;
+            bumperLeftView.setBackgroundColor(Color.RED);
+
+            //Create a Timer Task that will change the background color after the desired delay
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+
+
+                    Activity activity = (Activity)bumperLeftView.getContext();
+
+                    activity.runOnUiThread(new Runnable(){
+
+                        @Override
+                        public void run(){
+                            // update ui here
+                            leftBumper = false;
+                            bumperLeftView.setBackgroundColor(Color.BLUE);
+
+                        }
+                    });
+
+                }
+            };
+
+            //Create a new timer, assign it to the Timer Task and set the delay
+            Timer timer = new Timer();
+            timer.schedule(timerTask, Constants.BUMPER_SCREEN_DELAY);
+        }else {
+
+            leftBumper = false;
+            bumperLeftView.setBackgroundColor(Color.BLUE);
+        }
+
+        if (info.isRightBumper()){
+
+            rightBumper = true;
+            bumperRightView.setBackgroundColor(Color.RED);
+
+            //Create a Timer Task that will change the background color after the desired delay
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+
+
+                    Activity activity = (Activity)bumperRightView.getContext();
+
+                    activity.runOnUiThread(new Runnable(){
+
+                        @Override
+                        public void run(){
+                            // update ui here
+                            rightBumper = false;
+                            bumperRightView.setBackgroundColor(Color.BLUE);
+                        }
+                    });
+
+                }
+            };
+
+            //Create a new timer, assign it to the Timer Task and set the delay
+            Timer timer = new Timer();
+            timer.schedule(timerTask, Constants.BUMPER_SCREEN_DELAY);
+        }else {
+
+            rightBumper = false;
+            bumperRightView.setBackgroundColor(Color.BLUE);
+        }
+
+        if (info.isUltraSonic()){
+
+            ultraSonic = true;
+            ultraSoundView.setBackgroundColor(Color.RED);
+        }else{
+
+            ultraSonic = false;
+            ultraSoundView.setBackgroundColor(Color.BLUE);
+        }
+
+        if (info.isLightsON()){
+
+            lightsON = true;
+            lightsTextView.setText(R.string.on);
+        }else {
+
+            lightsON = false;
+            lightsTextView.setText(R.string.off);
+        }
+
+        temperature = info.getTemperature();
+        gear = info.getGear();
+        speed = info.getSpeed();
+
+        String gearString = "Gear: " + gear;
+        String speedString = "Speed: " + speed + " Km/h";
+        String tempString = temperature + " ºC";
+
+        gearsTextView.setText(gearString);
+        speedTextView.setText(speedString);
+        temperatureTextView.setText(tempString);
+
+        if (isManual && !info.isManual()){
+
+            isManual = false;
+        }else if (!isManual && info.isManual()){
+
+            isManual = true;
+        }
+
+        // We deactivate some buttons if we are riding in automatic and viceversa.
+        for (Button button : deactivateButtons){
+            button.setEnabled(isManual);
+            if (!isManual){
+                button.setBackgroundColor(Color.DKGRAY);
+            }else {
+
+                button.setBackground(buttonStyle);
+            }
+        }
+
+    }
+
+    /**
+     * This method initializes the Remote Control viewModel.
+     */
+    private void initViewModel(final List<Button> deactivateButtons){
+
+        viewModel = ViewModelProviders.of(this).get(RemoteControlViewModel.class);
+        rcInfo = new Observer<RemoteControlInfo>() {
+            @Override
+            public void onChanged(@Nullable RemoteControlInfo info) {
+                showInfo(info, deactivateButtons);
+            }
+        };
+    }
+
+
+    /**
      * onStop method from the fragment.
      */
     @Override
     public void onStop(){
 
+        viewModel.stopRemoteControl(getContext()); //Stop the communication service
         super.onStop();
+        getActivity().finish();
     }
 
-    /**
-     * onResume method from the fragment.
-     */
-    @Override
-    public void onResume() {
-
-        super.onResume();
-    }
-
-    /**
-     * onPause method from the fragment.
-     */
-    @Override
-    public void onPause() {
-
-        super.onPause();
-        //getActivity().finish(); it does not work properly
-    }
 }

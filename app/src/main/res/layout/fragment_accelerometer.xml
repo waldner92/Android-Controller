@@ -17,49 +17,150 @@
         android:layout_marginTop="30dp"
         android:paddingRight="40dp"
         android:paddingLeft="30dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:id="@+id/row1"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:textSize="25sp"
-            android:text="@string/accelerometer"/>
+            android:layout_width="wrap_content"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tv_X"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"
-            android:text="@string/accX"
-            android:gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:textSize="25sp"
+                android:text="@string/accelerometer"/>
 
-        <TextView
-            android:id="@+id/tv_Y"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"
-            android:text="@string/accY"
-            android:gravity="center_horizontal"/>
-
-        <TextView
-            android:id="@+id/tv_Z"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:textSize="20sp"
-            android:text="@string/accZ"
-            android:gravity="center_horizontal"/>
+        </TableRow>
 
 
-        <!--
-        <Button
-            android:layout_width="wrap_content"
+        <TableRow
+            android:id="@+id/row2"
             android:layout_height="wrap_content"
-            android:text="Back to Menu"
-            android:id="@+id/Menu"
-            android:background="@drawable/button_style"/> -->
+            android:layout_width="wrap_content">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/tv_X"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/accX"
+                    android:layout_width="wrap_content" />
+
+                <ProgressBar
+                    android:id="@+id/negativeBarX"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_green_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+                <ProgressBar
+                    android:id="@+id/positiveBarX"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_green_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row3"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/tv_Y"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/accY"
+                    android:layout_width="wrap_content" />
+
+                <ProgressBar
+                    android:id="@+id/negativeBarY"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_blue_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+                <ProgressBar
+                    android:id="@+id/positiveBarY"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_blue_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/tv_Z"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/accZ"
+                    android:layout_width="wrap_content" />
+
+                <ProgressBar
+                    android:id="@+id/negativeBarZ"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_red_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+                <ProgressBar
+                    android:id="@+id/positiveBarZ"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progress="25"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@android:color/holo_red_light"
+                    android:progressBackgroundTint="@android:color/white"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+
+
+        </TableRow>
 
     </TableLayout>
 

@@ -28,7 +28,7 @@ public class MazeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
+        //requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Set orientation to landscape
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maze); //Get the corresponding layout
@@ -55,23 +55,5 @@ public class MazeActivity extends AppCompatActivity {
         transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
         transaction.replace(R.id.activity_maze_container,fragment, MAZE_FRAGMENT);
         transaction.commit();
-    }
-
-    /**
-     * onStop method from the activity.
-     */
-    @Override
-    public void onStop(){
-
-        super.onStop();
-    }
-
-    /**
-     * onResume method from the activity.
-     */
-    @Override
-    public void onResume() {
-
-        super.onResume();
     }
 }

@@ -26,7 +26,7 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set orientation to portrait
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set orientation to portrait
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu); //Get the corresponding layout
 

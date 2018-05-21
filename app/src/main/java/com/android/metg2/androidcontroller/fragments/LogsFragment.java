@@ -101,6 +101,7 @@ public class LogsFragment extends Fragment {
 
         viewModel.stopLogs(getContext()); //Stop the logging service
         super.onStop();
+        getActivity().finish();
     }
 
     /**

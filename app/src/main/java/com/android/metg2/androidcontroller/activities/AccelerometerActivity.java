@@ -29,7 +29,7 @@ public class AccelerometerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR); //Ask for the action bar
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Orientation set to landscape
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Orientation set to landscape
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer); //Get the layout
         ActionBar actBar = getSupportActionBar(); //Get the action Bar
@@ -55,23 +55,5 @@ public class AccelerometerActivity extends AppCompatActivity {
         transaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
         transaction.replace(R.id.activity_accelerometer_container,fragment, ACCELEROMETER_FRAGMENT);
         transaction.commit();
-    }
-
-    /**
-     * onStop method from the activity.
-     */
-    @Override
-    public void onStop(){
-
-        super.onStop();
-    }
-
-    /**
-     * onResume method from the activity.
-     */
-    @Override
-    public void onResume() {
-
-        super.onResume();
     }
 }

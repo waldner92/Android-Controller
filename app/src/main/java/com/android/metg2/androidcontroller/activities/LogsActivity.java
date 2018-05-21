@@ -33,7 +33,7 @@ public class LogsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set the orientation to portrait
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set the orientation to portrait
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs); //Get the corresponding layout
         ActionBar actBar = getSupportActionBar(); ////Get the action bar

@@ -13,7 +13,8 @@ import com.android.metg2.androidcontroller.utils.DebugUtils;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import static com.android.metg2.androidcontroller.communication.CommunicationTasks.runCommunicationTasks;
+import static com.android.metg2.androidcontroller.communication.CommunicationTasks.runReceptionTask;
+import static com.android.metg2.androidcontroller.communication.CommunicationTasks.runTransmitionTask;
 import static com.android.metg2.androidcontroller.communication.CommunicationTasks.stopCommunicationTasks;
 
 /**
@@ -84,10 +85,10 @@ public class CommunicationService  extends Service{
             e.printStackTrace();
         }
 
-        runCommunicationTasks(); //Start the transmission and reception AsynTasks
+        runReceptionTask(); //Start the transmission and reception AsynTasks
         isRunning = true; //The service is now running
         Toast.makeText(this, "Communication with Arduino established", Toast.LENGTH_LONG).show(); //notify it to the view
-        sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N); //Set the first message to be send
+        //sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N); //Set the first message to be send
         return Service.START_STICKY;
     }
 
@@ -97,7 +98,6 @@ public class CommunicationService  extends Service{
     @Override
     public void onDestroy() {
 
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in CommService");
         stopCommunicationTasks(); //Stop the transmission and reception AsynTasks
         super.onDestroy();
         isRunning = false; //The service is now stopped
@@ -110,7 +110,7 @@ public class CommunicationService  extends Service{
     public static void sendDatagram(String datagram){
 
         CommunicationTasks.datagramToSend = datagram;
-        DebugUtils.debug("Datagram:", datagram);
+        runTransmitionTask();
     }
 
     /*-------------------------- Service Binder -----------------------------*/
@@ -156,9 +156,9 @@ public class CommunicationService  extends Service{
      * @param shape String The shape to draw (circle, triangle or square)
      * @param angle String The rotation angle
      */
-    public static void sendRemoteControlMessage(String mode, String lights, String gear, String shape, String angle){
+    public static void sendRemoteControlMessage(String mode, String lights, String gear, String shape, String angle, String gas){
 
-        sendDatagram("type:" + Constants.RC_TYPE + ",mode:" + mode + ",lights:" + lights + ",gear:" + gear + ",shape:" + shape + ",angle:" + angle);
+        sendDatagram("type:" + Constants.RC_TYPE + ",mode:" + mode + ",lights:" + lights + ",gear:" + gear + ",shape:" + shape + ",angle:" + angle + ",gas:" + gas);
     }
 
     /**
