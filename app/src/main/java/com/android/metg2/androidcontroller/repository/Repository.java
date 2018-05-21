@@ -19,7 +19,7 @@ import static com.android.metg2.androidcontroller.communication.CommunicationSer
  * interface itself and uses callback functions to pass data to the viewModels.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class Repository implements CommunicationService.CommunicationServiceInterface {
 
@@ -109,22 +109,21 @@ public class Repository implements CommunicationService.CommunicationServiceInte
     /*------------------------- Service interface callbakcs -----------------------*/
 
     /**
-     * Callback method that gets the received message from the communication service and prepares
-     * a log to inform to the Logs viewModel.
+     * Callback method that gets the received message from the communication service and passes it to all
+     * the viewModels.
      * @param msg Message The received message
      */
     @Override
     public void rxMessageValue(String msg) {
 
         String time = Calendar.getInstance().getTime().toString(); //Get the current date and time
-        //DebugUtils.debug("PACKET RECEPTION", msg);
-        repositoryCallback.onNewMessage(msg, time);
+        repositoryCallback.onNewMessage(msg, time); //Pass the received message to the view model
         //repositoryCallback.onNewMessage(time + " Received from Arduino: " + msg); //construct the log and push it to the Logs viewModel
     }
 
     /**
      * Callback method that gets the sent message to the communication service and prepares
-     * a log to inform to the Logs viewModel.
+     * a log to inform to the Logs viewModel. Currently, this function is disabled (commented).
      * @param msg Message The sent message
      */
     @Override
@@ -145,7 +144,7 @@ public class Repository implements CommunicationService.CommunicationServiceInte
     /*-----------------------------------------------------------------------------*/
     /*-------------------------- Repository Interface -----------------------------*/
     /**
-     * This interface specifies the two callback methods to communicate with the viewModel.
+     * This interface specifies the two callback methods to communicate with the viewModels.
      */
     public interface RepositoryCallbacks {
 

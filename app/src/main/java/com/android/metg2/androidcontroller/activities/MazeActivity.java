@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-
 import com.android.metg2.androidcontroller.R;
 import com.android.metg2.androidcontroller.fragments.MazeFragment;
 
@@ -28,7 +26,6 @@ public class MazeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Set orientation to landscape
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maze); //Get the corresponding layout

@@ -14,7 +14,7 @@ import com.android.metg2.androidcontroller.utils.Constants;
  * then pass the list of logs to the view.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class LogsViewModel extends ViewModel implements Repository.RepositoryCallbacks{
 
@@ -76,7 +76,7 @@ public class LogsViewModel extends ViewModel implements Repository.RepositoryCal
 
     /**
      * This callback method is called when there is a new message. It updated the entire list of logs and
-     * refreshes the observable variable.
+     * refreshes the observable variable. Currently this function is disabled (code commented).
      *
      * @param msg String The new message
      * @param time String the timestamp of the message

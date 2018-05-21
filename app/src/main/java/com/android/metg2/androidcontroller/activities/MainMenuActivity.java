@@ -1,6 +1,5 @@
 package com.android.metg2.androidcontroller.activities;
 
-import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set orientation to portrait
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu); //Get the corresponding layout
 

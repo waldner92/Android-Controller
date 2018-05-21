@@ -2,6 +2,9 @@ package com.android.metg2.androidcontroller.utils;
 
 /**
  * This class gathers all constants used in the app.
+ *
+ * @author  Adria Acero, Adria Mallorqui, Jordi Miro
+ * @version 2.0
  */
 public class Constants {
 
@@ -47,24 +50,89 @@ public class Constants {
     /*-------------------------------------------------------------------------*/
 
     /*-------------------------RESPONSE PACKET FIELDS--------------------------*/
-    //Type:rc,Aut:1,RBump:0,LBump:0,ColUs:1,gear:+2,ledsOn:0,sh:N,ang:00,temp:28.38
+    /**
+     * Position of the "type" field in the message
+     */
     public final static int TYPE_FIELD = 0;
+
+    /**
+     * Position of the "aut" field in the message
+     */
     public final static int MANUAL_FIELD = 1;
+
+    /**
+     * Position of the "temperature" field in the message
+     */
     public final static int TEMPERATURE_FIELD = 1;
+
+    /**
+     * Position of the "us" field in the message
+     */
     public final static int US_FIELD = 1;
+
+    /**
+     * Position of the "bump" field in the message
+     */
     public final static int BUMP_FIELD = 1;
+
+    /**
+     * Position of the "x" field in the message
+     */
     public final static int X_FIELD = 1;
+
+    /**
+     * Position of the "y" field in the message
+     */
     public final static int Y_FIELD = 2;
+
+    /**
+     * Position of the "z" field in the message
+     */
     public final static int Z_FIELD = 3;
+
+    /**
+     * Position of the "rBump" field in the message
+     */
     public final static int RIGHTB_FIELD = 2;
+
+    /**
+     * Position of the "lBump" field in the message
+     */
     public final static int LEFTTB_FIELD = 3;
+
+    /**
+     * Position of the "USCol" field in the message
+     */
     public final static int USONIC_FIELD = 4;
+
+    /**
+     * Position of the "gear" field in the message
+     */
     public final static int GEAR_FIELD = 5;
+
+    /**
+     * Position of the "lights" field in the message
+     */
     public final static int LIGHTS_FIELD = 6;
+
+    /**
+     * Position of the "shape" field in the message
+     */
     public final static int SHAPE_FIELD = 7;
+
+    /**
+     * Position of the "angle" field in the message
+     */
     public final static int ANGLE_FIELD = 8;
+
+    /**
+     * Position of the "temp" field in the message
+     */
     public final static int TEMP_FIELD = 9;
 
+    /**
+     * Position of the value inside a message field
+     */
     public final static int VALUE_FIELD = 1;
     /*-------------------------------------------------------------------------*/
 
@@ -262,7 +330,7 @@ public class Constants {
     public final static String TRIANGLE = "Triangle";
 
     /**
-     * Duration of the collision bumper state (in red) in millisecond
+     * Duration of the collision bumper state (in red) in milliseconds
      */
     public final static int BUMPER_SCREEN_DELAY = 1000;
     /*-------------------------------------------------------------------------*/

@@ -1,9 +1,12 @@
 package com.android.metg2.androidcontroller.utils;
 
 /**
+ * This class contains the information of everithing needed for the Arduino's remote control. It is
+ * used for the Remote Control challenge.
  *
+ * @author Adria Acero, Adria Mallorqui, Jordi Miro
+ * @version 1.0
  */
-
 public class RemoteControlInfo {
 
     /**
@@ -51,99 +54,21 @@ public class RemoteControlInfo {
      */
     private boolean leftBumper;
 
+    /**
+     * The current shape being performed by the Arduino
+     */
     private String  shape;
 
+    /**
+     * The current turning angle of the Arduino in packet-string format.
+     */
     private String angle;
 
-    public int getGear() {
-        return gear;
-    }
-
-    public void setGear(int gear) {
-        this.gear = gear;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public boolean isLightsON() {
-        return lightsON;
-    }
-
-    public void setLightsON(boolean lightsON) {
-        this.lightsON = lightsON;
-    }
-
-    public boolean isManual() {
-        return isManual;
-    }
-
-    public void setManual(boolean manual) {
-        isManual = manual;
-    }
-
-    public float getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(float temperature) {
-        this.temperature = temperature;
-    }
-
-    public boolean isGas() {
-        return gas;
-    }
-
-    public void setGas(boolean gas) {
-        this.gas = gas;
-    }
-
-    public boolean isUltraSonic() {
-        return ultraSonic;
-    }
-
-    public void setUltraSonic(boolean ultraSonic) {
-        this.ultraSonic = ultraSonic;
-    }
-
-    public boolean isRightBumper() {
-        return rightBumper;
-    }
-
-    public void setRightBumper(boolean rightBumper) {
-        this.rightBumper = rightBumper;
-    }
-
-    public boolean isLeftBumper() {
-        return leftBumper;
-    }
-
-    public void setLeftBumper(boolean leftBumper) {
-        this.leftBumper = leftBumper;
-    }
-
-    public String getShape() {
-        return shape;
-    }
-
-    public void setShape(String shape) {
-        this.shape = shape;
-    }
-
-    public String getAngle() {
-        return angle;
-    }
-
-    public void setAngle(String angle) {
-        this.angle = angle;
-    }
-
+    /**
+     * The class constructor. It initializes all variables.
+     */
     public RemoteControlInfo() {
+
         this.gear = 0;
         this.speed = 0;
         this.lightsON = false;
@@ -155,5 +80,180 @@ public class RemoteControlInfo {
         this.leftBumper = false;
         this.shape = Constants.SHAPE_N;
         this.angle = Constants.ANGLE_N;
+    }
+
+    /**
+     *
+     * @return int The current gear
+     */
+    public int getGear() {
+        return gear;
+    }
+
+    /**
+     * @param gear int The gear value to be set
+     */
+    public void setGear(int gear) {
+        this.gear = gear;
+    }
+
+    /**
+     *
+     * @return int The current speed
+     */
+    public int getSpeed() {
+        return speed;
+    }
+
+    /**
+     *
+     * @param speed int The speed value to be set
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    /**
+     *
+     * @return boolean True if the lights are turned on, false otherwise
+     */
+    public boolean isLightsON() {
+        return lightsON;
+    }
+
+    /**
+     *
+     * @param lightsON boolean True to indicate that lights are turned on, false otherwise
+     */
+    public void setLightsON(boolean lightsON) {
+        this.lightsON = lightsON;
+    }
+
+    /**
+     *
+     * @return boolean True if the current driving mode is manual, false otherwise
+     */
+    public boolean isManual() {
+        return isManual;
+    }
+
+    /**
+     *
+     * @param manual boolean True to indicate that the current driving mode is manual, false otherwise
+     */
+    public void setManual(boolean manual) {
+        isManual = manual;
+    }
+
+    /**
+     *
+     * @return float The current temperature
+     */
+    public float getTemperature() {
+        return temperature;
+    }
+
+    /**
+     *
+     * @param temperature float The temperature value to be set
+     */
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
+    }
+
+    /**
+     *
+     * @return boolean True if the robot is accelerating, false if it is stopped
+     */
+    public boolean isGas() {
+        return gas;
+    }
+
+    /**
+     *
+     * @param gas boolean True to indicate that the robot is accelerating, false otherwise
+     */
+    public void setGas(boolean gas) {
+        this.gas = gas;
+    }
+
+    /**
+     *
+     * @return boolean True if the UltraSonic detects collision danger, false otherwise
+     */
+    public boolean isUltraSonic() {
+        return ultraSonic;
+    }
+
+    /**
+     *
+     * @param ultraSonic boolean True to indicate that the UltraSonic detects collision danger, false otherwise
+     */
+    public void setUltraSonic(boolean ultraSonic) {
+        this.ultraSonic = ultraSonic;
+    }
+
+    /**
+     *
+     * @return boolean True if the right bumper detects collision, false otherwise
+     */
+    public boolean isRightBumper() {
+        return rightBumper;
+    }
+
+    /**
+     *
+     * @param rightBumper boolean True to indicate that the right bumper detects collision, false otherwise
+     */
+    public void setRightBumper(boolean rightBumper) {
+        this.rightBumper = rightBumper;
+    }
+
+    /**
+     *
+     * @return boolean True if the left bumper detects collision, false otherwise
+     */
+    public boolean isLeftBumper() {
+        return leftBumper;
+    }
+
+    /**
+     *
+     * @param leftBumper boolean True to indicate that the left bumper detects collision, false otherwise
+     */
+    public void setLeftBumper(boolean leftBumper) {
+        this.leftBumper = leftBumper;
+    }
+
+    /**
+     *
+     * @return String The shape being performed
+     */
+    public String getShape() {
+        return shape;
+    }
+
+    /**
+     *
+     * @param shape String The value to indicate the shape that the Arduino is performing
+     */
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+
+    /**
+     *
+     * @return String The current turning angle of the Arduino
+     */
+    public String getAngle() {
+        return angle;
+    }
+
+    /**
+     *
+     * @param angle String The value to indicate the current turning angle of the Arduino
+     */
+    public void setAngle(String angle) {
+        this.angle = angle;
     }
 }

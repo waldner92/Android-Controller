@@ -34,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //Set orientation to portrait
         requestWindowFeature(Window.FEATURE_NO_TITLE); //Erase title from this activity
         requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
         super.onCreate(savedInstanceState);

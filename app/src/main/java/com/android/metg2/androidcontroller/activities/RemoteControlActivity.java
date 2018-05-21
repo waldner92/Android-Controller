@@ -1,6 +1,5 @@
 package com.android.metg2.androidcontroller.activities;
 
-import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +8,9 @@ import android.view.Window;
 
 import com.android.metg2.androidcontroller.R;
 import com.android.metg2.androidcontroller.fragments.RemoteControlFragment;
-import com.android.metg2.androidcontroller.utils.DebugUtils;
 
 /**
- * Remote Control Activity. This ativity displays all the options to control the Arduino Robot,
+ * Remote Control Activity. This activity displays all the options to control the Arduino Robot,
  * including the turning (accelerometer) control and the shape recognition.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
@@ -31,7 +29,6 @@ public class RemoteControlActivity extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR); //Request for the action bar
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Set orientation to landscape
 
         setContentView(R.layout.activity_remote_control); //Get the corresponding layout
         ActionBar actBar = getSupportActionBar(); //Get the action bar

@@ -34,7 +34,7 @@ import java.util.TimerTask;
  * Accelerometer Fragment. It is the actual view of the Accelerometer Activity.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class AccelerometerFragment extends android.support.v4.app.Fragment {
 
@@ -123,7 +123,8 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
     }
 
     /**
-     * onCreateView method from the fragment. It sets the fragment layout and binds the views.
+     * onCreateView method from the fragment. It sets the fragment layout and binds the views. It
+     * also asks the viewMovel to start the communication service.
      *
      * @param inflater LayoutInflater
      * @param container ViewGroup
@@ -137,12 +138,12 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
 
         initViewModel(); //start the communication service
 
-        viewModel.showInfo(getContext()).observe(this, accInfo); //Refresh continuously the list of logs
+        viewModel.showInfo(getContext()).observe(this, accInfo); //Refresh continuously the accelerometer values
 
+        //bind views
         accX = v.findViewById(R.id.tv_X);
         accY = v.findViewById(R.id.tv_Y);
         accZ = v.findViewById(R.id.tv_Z);
-
         pBarX = v.findViewById(R.id.positiveBarX);
         nBarX = v.findViewById(R.id.negativeBarX);
         pBarY = v.findViewById(R.id.positiveBarY);
@@ -150,6 +151,7 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
         pBarZ = v.findViewById(R.id.positiveBarZ);
         nBarZ = v.findViewById(R.id.negativeBarZ);
 
+        //set the drawable of the progress bars to get the desired color and style
         pBarX.setProgressDrawable(getResources().getDrawable(R.drawable.green_progress_bar));
         nBarX.setProgressDrawable(getResources().getDrawable(R.drawable.green_progress_bar));
         pBarY.setProgressDrawable(getResources().getDrawable(R.drawable.blue_progress_bar));
@@ -157,19 +159,17 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
         pBarZ.setProgressDrawable(getResources().getDrawable(R.drawable.red_progress_bar));
         nBarZ.setProgressDrawable(getResources().getDrawable(R.drawable.red_progress_bar));
 
+        //rotate the negative progress bars so the go from right to left
         nBarX.setRotation(180);
         nBarY.setRotation(180);
         nBarZ.setRotation(180);
 
-        accX.append(" 0.03");
-        accY.append(" 0.04");
-        accZ.append(" 0.98");
-
-
-
         return v;
     }
 
+    /**
+     * This method initializes the Logs viewModel.
+     */
     private void initViewModel(){
 
         viewModel = ViewModelProviders.of(this).get(AccelerometerViewModel.class);
@@ -183,10 +183,11 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
 
     /**
      * This method refreshes the info of the remote control status.
-     * @param info The object that contains all the info
+     * @param info AccelerometerInfo The object that contains the accelerometer values
      */
     public static void showInfo(AccelerometerInfo info) {
 
+        //Refresh the textViews with the new values gathered
         accX.setText(R.string.accX);
         accX.append(info.getX().toString());
         accY.setText(R.string.accY);
@@ -194,11 +195,13 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
         accZ.setText(R.string.accZ);
         accZ.append(info.getZ().toString());
 
+        //Update the progress bars accordingly
         if (info.getX() > 0){
 
             pBarX.setProgress((int)(info.getX()*100));
             nBarX.setProgress(0);
         }else {
+
             pBarX.setProgress(0);
             nBarX.setProgress((int)(-info.getX()*100));
         }
@@ -208,6 +211,7 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
             pBarY.setProgress((int)(info.getY()*100));
             nBarY.setProgress(0);
         }else {
+
             pBarY.setProgress(0);
             nBarY.setProgress((int)(-info.getY()*100));
         }
@@ -217,6 +221,7 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
             pBarZ.setProgress((int)(info.getZ()*100));
             nBarZ.setProgress(0);
         }else {
+
             pBarZ.setProgress(0);
             nBarZ.setProgress((int)(-info.getZ()*100));
         }
@@ -229,7 +234,7 @@ public class AccelerometerFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStop(){
 
-        viewModel.stopAccelerometer(getContext());
+        viewModel.stopAccelerometer(getContext()); //Stop the communication service
         super.onStop();
         getActivity().finish();
     }

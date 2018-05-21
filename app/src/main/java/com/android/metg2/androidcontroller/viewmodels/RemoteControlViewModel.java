@@ -18,11 +18,11 @@ import java.util.TimerTask;
 
 /**
  * The viewModel of the Remote Control Activity. This class performs the actions when the view listeners are
- * triggered. It will communicate with the robot in the future, but right now it just shows toasts
- * on the screen and update some values of the view.
+ * triggered. It communicates with the repository to sent a message,
+ * and gets the received ones from it to pass the new gathered values to the view.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class RemoteControlViewModel extends ViewModel implements Repository.RepositoryCallbacks{
 
@@ -32,7 +32,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
     private Repository repository;
 
     /**
-     * The observable string that the view monitors and contains the list of logs.
+     * The observable object that the view monitors and contains all the info
      */
     private MutableLiveData<RemoteControlInfo> infoMutableLiveData;
 
@@ -54,7 +54,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
     }
 
     /**
-     * This method refreshes continuously the list of logs to the view and asks the repository to
+     * This method refreshes continuously the remote control challenge info to the view and asks the repository to
      * start the communication service.
      *
      * @param context Context The application context
@@ -62,12 +62,12 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
      */
     public LiveData<RemoteControlInfo> showInfo(Context context){
 
-        //If it is the first call, logs will be null and we have to initialize it
+        //If it is the first call, the object will be null and we have to initialize it
         if(infoMutableLiveData == null){
 
             infoMutableLiveData = new MutableLiveData<>(); //initialize the observable variable
-            if (info == null) info = new RemoteControlInfo(); //If the list of logs is empty (first call), fill it with the header
-            infoMutableLiveData.postValue(info); //update the observable variable with the list of logs
+            if (info == null) info = new RemoteControlInfo(); //If the object is empty (first call), initialize it
+            infoMutableLiveData.postValue(info); //update the observable variable with the new object
         }
 
         repository.startService(context); //ask the repository to start the service
@@ -77,34 +77,31 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
     }
 
     /**
-     * This method the repository to stop the communication service.
+     * This method asks the repository to stop the communication service.
      *
      * @param context Context The application context
      */
     public void stopRemoteControl(Context context){
 
-        //com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in viewModel");
-        repository.sendMessage("type:stop,mode:none");
+        repository.sendMessage("type:stop,mode:none"); //send the stop message to the robot
         repository.stopService(context); //ask the repository to stop the service
     }
 
     /**
      * This method is called when the Aut/Man button is pressed (called from the listener). It updates
-     * the new driving mode and constructa the message to ask the Arduino to do it.
+     * the new driving mode and constructs the message to ask the Arduino to do it.
      *
      * @param context Context The application context
      * @param isManual boolean True if the current mode is manual and false if it is automatic
      */
     public void onAutManPressed(Context context, boolean isManual) {
 
-
-
-        if (isManual){
+        /*if (isManual){
 
             Toast.makeText(context, "Changed RC mode to automatic", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(context, "Changed RC mode to manual", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
         info.setManual(!isManual);
         constructMessage();
@@ -121,13 +118,13 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
      */
     public void onLightsPressed(Context context, boolean lightsON) {
 
-        if (lightsON){
+        /*if (lightsON){
 
             Toast.makeText(context, "Lights turned OFF", Toast.LENGTH_SHORT).show();
         }else{
 
             Toast.makeText(context, "Lights turned ON", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
         info.setLightsON(!lightsON);
         constructMessage();
@@ -137,7 +134,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
     /**
      * This method is called when the Gear Up button is pressed (called from the listener). It increases the
      * value of the robot's driving gear and asks the robot to do it.
-     * @param context Conext The application context
+     * @param context Context The application context
      * @param gear int The current gear
      */
     public void onGearUpPressed(Context context, int gear) {
@@ -196,7 +193,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
      */
     public void onGas(Context context) {
 
-        Toast.makeText(context, "G0!!!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "G0!!!", Toast.LENGTH_SHORT).show();
         info.setGas(true);
         constructMessage();
         repository.sendMessage(message);
@@ -204,13 +201,13 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
 
     /**
      * This method is called when the Gas button is released (called from the listener). It asks
-     * the robot to accelerate and updates the boolean value with the new "gas" status.
+     * the robot to stop and updates the boolean value with the new "gas" status.
      *
      * @param context Context The application context
      */
     public void onStop(Context context) {
 
-        Toast.makeText(context, "STOP!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "STOP!", Toast.LENGTH_SHORT).show();
         info.setGas(false);
         constructMessage();
         repository.sendMessage(message);
@@ -218,7 +215,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
 
     /**
      * This method is called when the turning angle of the robot has to be modified (called from
-     * the sensor listener). It shows a Toast on the screen indicating how the robot is moving and
+     * the sensor listener). It updates the current angle and
      * asks the robot to turn at the indicated angle.
      *
      * @param applicationContext Context The application context
@@ -227,7 +224,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
      */
     public String onAngleChanged(Context applicationContext, String angle) {
 
-        switch (angle){
+        /*switch (angle){
             case Constants.ANGLE_L2: if (applicationContext != null) Toast.makeText(applicationContext, "Turning left hard!", Toast.LENGTH_SHORT).show();
                 //DebugUtils.debug("ACCEL", "Turning left hard!");
                 break;
@@ -247,7 +244,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
             case Constants.ANGLE_R2: if (applicationContext != null) Toast.makeText(applicationContext, "Turning right hard!", Toast.LENGTH_SHORT).show();
                 //DebugUtils.debug("ACCEL", "Turning right hard!");
                 break;
-        }
+        }*/
 
         info.setAngle(angle);
         constructMessage();
@@ -257,7 +254,9 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
 
     /**
      * This method is called when a basic shape is recognised (called from the gesture overlay listener).
-     * It shows a Toast on the screen indicating which shape has been recognised.
+     * It shows a Toast on the screen indicating which shape has been recognised and asks the robot
+     * to perform it.
+     *
      * @param context Context The application context
      * @param name String The name of the recognised shape
      */
@@ -287,20 +286,31 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
         repository.sendMessage(message);
     }
 
+    /**
+     * This method is called when the repository passes a new received message to the viewModel.
+     * It parses the received message and passes the new info to the view.
+     * @param message String The received message
+     * @param time String Timestamp of the received message
+     */
     @Override
     public void onNewMessage(String message, String time) {
 
         deconstructMessage(message);
         infoMutableLiveData.postValue(info);
-
-
     }
 
+    /**
+     * This callback method is called when the communication has stopped. It does nothing right now,
+     * but it is already defined for future implementations.
+     */
     @Override
     public void onServiceStopped() {
 
     }
 
+    /**
+     * This method constructs a message of type "remote control"
+     */
     private void constructMessage() {
 
         String mode, lights, gear, gas;
@@ -358,9 +368,12 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
         message = "type:" + Constants.RC_TYPE + ",mode:" + mode + ",lights:" + lights + ",gear:" + gear + ",shape:" + info.getShape() + ",angle:" + info.getAngle() + ",gas:" + gas;
     }
 
+    /**
+     * This method parses all the info from the received "remote control", "bumper" or "ultrasonic" message
+     * @param msg The received message to be parsed
+     */
     private void deconstructMessage(String msg) {
 
-        //Type:rc,Aut:1,RBump:0,LBump:0,ColUs:1,gear:+2,ledsOn:0,sh:N,ang:00,temp:28.38
         String[] fields = msg.split(",");
         String[] aux = fields[Constants.TYPE_FIELD].split(":");
         String type = aux[Constants.VALUE_FIELD];
@@ -379,10 +392,12 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                 aux = fields[Constants.US_FIELD].split(":");
                 Integer collision = Integer.parseInt(aux[Constants.VALUE_FIELD]);
                 DebugUtils.debug("PARSED", "US-> " + collision.toString());
+
                 if (collision.intValue() == 1){
 
                     info.setUltraSonic(true);
                 }else {
+
                     info.setUltraSonic(false);
                 }
                 break;
@@ -391,15 +406,16 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                 aux = fields[Constants.BUMP_FIELD].split(":");
                 String bump = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Bump-> " + bump);
+
                 if (bump.equals(Constants.BUMP_LEFT)){
+
                     DebugUtils.debug("PARSED", "Right Bump-> true");
                     info.setLeftBumper(true);
-                    //Create a Timer Task that will trigger the MainMenuActivity after the set delay
+                    //Create a Timer Task that will update the bumper state after the set delay
                     TimerTask timerTask = new TimerTask() {
                         @Override
                         public void run() {
 
-                            //Create the intent that will start the MainMenuActivity
                             info.setLeftBumper(false);
                         }
                     };
@@ -407,15 +423,16 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                     //Create a new timer, assign it to the Timer Task and set the delay
                     Timer timer = new Timer();
                     timer.schedule(timerTask, Constants.BUMPER_SCREEN_DELAY);
+
                 }else if (bump.equals(Constants.BUMP_RIGHT)){
+
                     DebugUtils.debug("PARSED", "Left Bump-> true");
                     info.setRightBumper(true);
-                    //Create a Timer Task that will trigger the MainMenuActivity after the set delay
+                    //Create a Timer Task that will update the bumper state after the set delay
                     TimerTask timerTask = new TimerTask() {
                         @Override
                         public void run() {
 
-                            //Create the intent that will start the MainMenuActivity
                             info.setRightBumper(false);
                         }
                     };
@@ -430,13 +447,19 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                 aux = fields[Constants.MANUAL_FIELD].split(":");
                 String value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Aut-> " + value);
+
                 if (Integer.parseInt(value) == 1){
+
                     DebugUtils.debug("PARSED", "Aut-> true");
                     info.setManual(false);
                 }else {
+
                     DebugUtils.debug("PARSED", "Aut-> false");
                     info.setManual(true);
                 }
+
+                //Ignore BUMPER status in the "remote control" message
+
                 /*aux = fields[Constants.RIGHTB_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Right bumper-> " + value);
@@ -458,6 +481,8 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
 
                     info.setLeftBumper(false);
                 }*/
+
+
                 aux = fields[Constants.USONIC_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Ultrasonic-> " + value);
@@ -469,6 +494,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
 
                     info.setUltraSonic(false);
                 }
+
                 aux = fields[Constants.GEAR_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Gear-> " + value);
@@ -503,6 +529,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                         info.setGear(0);
                 }
                 info.setSpeed(calculateSpeed(info.getGear()));
+
                 aux = fields[Constants.LIGHTS_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Lights-> " + value);
@@ -518,19 +545,16 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                 aux = fields[Constants.SHAPE_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Shape-> " + value);
-
                 info.setShape(value);
 
                 aux = fields[Constants.ANGLE_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Angle-> " + value);
-
                 info.setAngle(value);
 
                 aux = fields[Constants.TEMP_FIELD].split(":");
                 Float temperature = Float.parseFloat(aux[Constants.VALUE_FIELD]);
                 DebugUtils.debug("PARSED", "Temp-> " + temperature);
-
                 info.setTemperature(temperature.floatValue());
                 break;
 

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.android.metg2.androidcontroller.utils.Constants;
-import com.android.metg2.androidcontroller.utils.DebugUtils;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -23,7 +22,7 @@ import static com.android.metg2.androidcontroller.communication.CommunicationTas
  * thanks to its callback methods.
  *
  * @author  Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class CommunicationService  extends Service{
 
@@ -88,7 +87,6 @@ public class CommunicationService  extends Service{
         runReceptionTask(); //Start the transmission and reception AsynTasks
         isRunning = true; //The service is now running
         Toast.makeText(this, "Communication with Arduino established", Toast.LENGTH_LONG).show(); //notify it to the view
-        //sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N); //Set the first message to be send
         return Service.START_STICKY;
     }
 

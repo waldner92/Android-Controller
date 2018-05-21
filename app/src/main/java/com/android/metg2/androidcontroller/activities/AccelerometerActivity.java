@@ -29,7 +29,6 @@ public class AccelerometerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR); //Ask for the action bar
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Orientation set to landscape
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer); //Get the layout
         ActionBar actBar = getSupportActionBar(); //Get the action Bar

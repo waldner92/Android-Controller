@@ -26,7 +26,7 @@ import static java.net.InetAddress.getByName;
  * service class (the interface to control these tasks).
  *
  * @author  Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 class CommunicationTasks {
 
@@ -56,31 +56,29 @@ class CommunicationTasks {
     private static boolean rx_run;
 
     /**
-     * This method starts both communication tasks. It can only be called from
+     * This starts the reception task. It can only be called from
      * the CommunicationService service class.
      */
     static void runReceptionTask() {
 
         rxTask = new ReceptionTask();
-
         rx_run = true; //Enable rx task
         rxTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); //Start the rx task in parallel to the tx task
     }
 
     /**
-     * This method starts both communication tasks. It can only be called from
+     * This method starts the transmission task. It can only be called from
      * the CommunicationService service class.
      */
     static void runTransmitionTask() {
 
         txTask = new TransmissionTask();
-
         tx_run = true; //Enable tx task
         txTask.execute(); //Start the tx task
     }
 
     /**
-     * This method stops both communication threads
+     * This method stops both communication tasks
      */
     static void stopCommunicationTasks() {
 
@@ -104,14 +102,13 @@ class CommunicationTasks {
      * This class is the reception AsynTask in charge of receiving UDP datagrams from the Arduino.
      *
      * @author Adria Acero, Adria Mallorqui, Jordi Miro
-     * @version 1.0
+     * @version 2.0
      */
     private static class ReceptionTask extends AsyncTask<Void, Void, Void> {
 
         /**
          * doInBackground method from the reception task. It tries to get the received message from
-         * the socket. Depending on the received message, it prepares the next datagram to be send.
-         * Finally, it informs to the repository about the received message.
+         * the socket. Finally, it informs to the repository about the received message.
          *
          * @param voids Void
          * @return Void null
@@ -145,23 +142,7 @@ class CommunicationTasks {
                 DebugUtils.debug("Packet received", message);
 
                 if (message.length() > 0) {
-                    //Depending on the received message
-                    /*switch (message) {
-                        case "Maze Challenge ACK": //If it is a Maze ACK, next packet to be send is a Remote Control datagram
-                            DebugUtils.debug("RX_TASK", "received maze challenge");
-                            sendRemoteControlMessage(Constants.RC_MAN, Constants.RC_LIGTHS_OFF, Constants.RC_GEAR_0, Constants.SHAPE_N, Constants.ANGLE_N);
-                            break;
 
-                        case "Remote Control ACK": //If it is a Remote Control ACK, next packet to be send is an Accelerometer datagram
-                            DebugUtils.debug("RX_TASK", "received remote control");
-                            sendAccelerometerMessage(Constants.ACC_STOP);
-                            break;
-
-                        case "Accelerometer Challenge ACK": //If it is an Accelerometer ACK, next packet to be send is a Maze datagram
-                            DebugUtils.debug("RX_TASK", "received accelerometer challenge");
-                            sendMazeMessage(Constants.MAZE_STOP);
-                            break;
-                    }*/
                     if (serviceCallbakcs != null) serviceCallbakcs.rxMessageValue(message); //Return the message to the Repository
                 }
             }
@@ -189,14 +170,13 @@ class CommunicationTasks {
      * This class is the transmission AsynTask in charge of sending UDP datagrams to the Arduino.
      *
      * @author Adria Acero, Adria Mallorqui, Jordi Miro
-     * @version 1.0
+     * @version 2.0
      */
     private static class TransmissionTask extends AsyncTask<Void, Void, Void> {
 
         /**
          * doInBackground method from the transmission task. It tries to send the corresponding message
-         * using the socket. Depending on the received message, it prepares the next datagram to be send.
-         * Finally, it informs to the repository about the received message.
+         * using the socket. Finally, it informs to the repository about the sent message.
          *
          * @param voids Void
          * @return Void null
@@ -232,31 +212,14 @@ class CommunicationTasks {
         }
 
         /**
-         * onPostExecute method from the transmission task. If the task must keep running (service not
-         * stopped), it calls a new transmission task again after 5 seconds.
+         * onPostExecute method from the transmission task. It deactivates the flag indicating that
+         * the task has concluded.
          *
          * @param aVoid void
          */
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            /*
-            if (tx_run) {
-
-                //Create a Timer Task that will trigger the transmission of the next packet
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-
-                        txTask = new TransmissionTask();
-                        txTask.execute(); //Start the tx task
-                    }
-                };
-
-                //Create a new timer, assign it to the Timer Task and set the delay
-                Timer timer = new Timer();
-                timer.schedule(timerTask, Constants.FRAME_PERIOD);
-            }*/
             tx_run = false;
         }
 

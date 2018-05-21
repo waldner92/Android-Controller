@@ -16,12 +16,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * The viewModel of the Accelerometer Activity. It will communicate with the robot in the future,
- * but right now it just shows toasts
- * on the screen and update some values of the view.
+ * The viewModel of the Accelerometer Activity. It communicates with the repository to sent a message,
+ * and gets the received ones from it to pass the new gathered values to the view.
  *
  * @author Adria Acero, Adria Mallorqui, Jordi Miro
- * @version 1.0
+ * @version 2.0
  */
 public class AccelerometerViewModel extends ViewModel implements Repository.RepositoryCallbacks{
 
@@ -31,12 +30,12 @@ public class AccelerometerViewModel extends ViewModel implements Repository.Repo
     private Repository repository;
 
     /**
-     * The observable string that the view monitors and contains the list of logs.
+     * The observable object that the view monitors and contains all the info
      */
     private MutableLiveData<AccelerometerInfo> infoMutableLiveData;
 
     /**
-     * The list of all logs.
+     * The object that contains all the info related to the remote control challenge
      */
     private static AccelerometerInfo info;
 
@@ -53,20 +52,20 @@ public class AccelerometerViewModel extends ViewModel implements Repository.Repo
     }
 
     /**
-     * This method refreshes continuously the list of logs to the view and asks the repository to
+     * This method refreshes continuously the accelerometer challenge info to the view and asks the repository to
      * start the communication service.
      *
      * @param context Context The application context
-     * @return LiveData<String> The list of logs
+     * @return LiveData<AccelerometerInfo> The acceleromete challenge information values
      */
     public LiveData<AccelerometerInfo> showInfo(Context context){
 
-        //If it is the first call, logs will be null and we have to initialize it
+        //If it is the first call, the object will be null and we have to initialize it
         if(infoMutableLiveData == null){
 
             infoMutableLiveData = new MutableLiveData<>(); //initialize the observable variable
-            if (info == null) info = new AccelerometerInfo(); //If the list of logs is empty (first call), fill it with the header
-            infoMutableLiveData.postValue(info); //update the observable variable with the list of logs
+            if (info == null) info = new AccelerometerInfo(); //If the object is empty (first call), initialize it
+            infoMutableLiveData.postValue(info); //update the observable variable the new object
         }
 
         repository.startService(context); //ask the repository to start the service
@@ -76,39 +75,52 @@ public class AccelerometerViewModel extends ViewModel implements Repository.Repo
     }
 
     /**
-     * This method the repository to stop the communication service.
+     * This method asks the repository to stop the communication service.
      *
      * @param context Context The application context
      */
     public void stopAccelerometer(Context context){
 
-        //com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in viewModel");
-        repository.sendMessage("type:stop,mode:none");
+        repository.sendMessage("type:stop,mode:none"); //send the stop message to the robot
         repository.stopService(context); //ask the repository to stop the service
     }
 
+    /**
+     * This method is called when the repository passes a new received message to the viewModel.
+     * It parses the received message and passes the new info to the view.
+     * @param message String The received message
+     * @param time String Timestamp of the received message
+     */
     @Override
     public void onNewMessage(String message, String time) {
 
         deconstructMessage(message);
         infoMutableLiveData.postValue(info);
-
-
     }
 
+    /**
+     * This callback method is called when the communication has stopped. It does nothing right now,
+     * but it is already defined for future implementations.
+     */
     @Override
     public void onServiceStopped() {
 
     }
 
+    /**
+     * This method constructs a message of type "accelerometer"
+     */
     private void constructMessage() {
 
         message = "type:" + Constants.ACCEL_TYPE + ",mode:none";
     }
 
+    /**
+     * This method parses all the info from the received "accelerometer" message
+     * @param msg The received message to be parsed
+     */
     private void deconstructMessage(String msg) {
 
-        //Type:rc,Aut:1,RBump:0,LBump:0,ColUs:1,gear:+2,ledsOn:0,sh:N,ang:00,temp:28.38
         String[] fields = msg.split(",");
         String[] aux = fields[Constants.TYPE_FIELD].split(":");
         String type = aux[Constants.VALUE_FIELD];
@@ -121,22 +133,18 @@ public class AccelerometerViewModel extends ViewModel implements Repository.Repo
                 aux = fields[Constants.X_FIELD].split(":");
                 Float val = Float.parseFloat(aux[Constants.VALUE_FIELD]);
                 DebugUtils.debug("PARSED", "X-> " + val);
-
                 info.setX(val.floatValue());
 
                 aux = fields[Constants.Y_FIELD].split(":");
                 val = Float.parseFloat(aux[Constants.VALUE_FIELD]);
                 DebugUtils.debug("PARSED", "Y-> " + val);
-
                 info.setY(val.floatValue());
 
                 aux = fields[Constants.Z_FIELD].split(":");
                 val = Float.parseFloat(aux[Constants.VALUE_FIELD]);
                 DebugUtils.debug("PARSED", "Z-> " + val);
-
                 info.setZ(val.floatValue());
                 break;
-
         }
     }
 
