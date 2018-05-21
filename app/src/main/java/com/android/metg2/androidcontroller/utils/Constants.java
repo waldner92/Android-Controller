@@ -51,6 +51,7 @@ public class Constants {
     public final static int TYPE_FIELD = 0;
     public final static int MANUAL_FIELD = 1;
     public final static int TEMPERATURE_FIELD = 1;
+    public final static int US_FIELD = 1;
     public final static int BUMP_FIELD = 1;
     public final static int X_FIELD = 1;
     public final static int Y_FIELD = 2;
@@ -77,6 +78,11 @@ public class Constants {
      * Indicates that the message type is Bumper.
      */
     public final static String BUMP_TYPE = "bump";
+
+    /**
+     * Indicates that the message type is UltraSonic.
+     */
+    public final static String US_TYPE = "us";
 
     /**
      * Indicates that the message type is Accelerometer.

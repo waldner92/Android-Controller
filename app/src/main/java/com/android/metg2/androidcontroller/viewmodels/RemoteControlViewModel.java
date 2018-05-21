@@ -181,7 +181,11 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
      */
     public int calculateSpeed(int gear) {
 
-        return gear*10;
+        if (info.isGas()) {
+            return gear * 10;
+        }else {
+            return 0;
+        }
     }
 
     /**
@@ -371,6 +375,18 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                 DebugUtils.debug("PARSED", "Temperature-> " + temp);
                 break;
 
+            case Constants.US_TYPE:
+                aux = fields[Constants.US_FIELD].split(":");
+                Integer collision = Integer.parseInt(aux[Constants.VALUE_FIELD]);
+                DebugUtils.debug("PARSED", "US-> " + collision.toString());
+                if (collision.intValue() == 1){
+
+                    info.setUltraSonic(true);
+                }else {
+                    info.setUltraSonic(false);
+                }
+                break;
+
             case Constants.BUMP_TYPE:
                 aux = fields[Constants.BUMP_FIELD].split(":");
                 String bump = aux[Constants.VALUE_FIELD];
@@ -486,6 +502,7 @@ public class RemoteControlViewModel extends ViewModel implements Repository.Repo
                     default:
                         info.setGear(0);
                 }
+                info.setSpeed(calculateSpeed(info.getGear()));
                 aux = fields[Constants.LIGHTS_FIELD].split(":");
                 value = aux[Constants.VALUE_FIELD];
                 DebugUtils.debug("PARSED", "Lights-> " + value);
