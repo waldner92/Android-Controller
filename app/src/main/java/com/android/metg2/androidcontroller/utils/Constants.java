@@ -31,7 +31,7 @@ public class Constants {
     /**
      * The IP from the Arduino (the server).
      */
-    public final static String SERVER_IP = "192.168.0.158";
+    public final static String SERVER_IP = "192.168.1.137";
 
     /**
      * The UDP port where the Arduino (the server) is listening connections from.

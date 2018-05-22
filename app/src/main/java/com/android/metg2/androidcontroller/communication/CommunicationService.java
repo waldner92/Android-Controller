@@ -27,7 +27,7 @@ import static com.android.metg2.androidcontroller.communication.CommunicationTas
 public class CommunicationService  extends Service{
 
     /**
-     * Indicates if the Coommunication Service is running (true) or not (false).
+     * Indicates if the Communication Service is running (true) or not (false).
      */
     public static Boolean isRunning = false;
 
@@ -86,7 +86,6 @@ public class CommunicationService  extends Service{
 
         runReceptionTask(); //Start the transmission and reception AsynTasks
         isRunning = true; //The service is now running
-        Toast.makeText(this, "Communication with Arduino established", Toast.LENGTH_LONG).show(); //notify it to the view
         return Service.START_STICKY;
     }
 

@@ -60,8 +60,6 @@ public class Repository implements CommunicationService.CommunicationServiceInte
      */
     public void stopService(Context context) {
 
-        com.android.metg2.androidcontroller.utils.DebugUtils.debug("BACK","Entered here in Respository");
-
         //If th service is bound, unbind it
         if (serviceIsBound) {
 
